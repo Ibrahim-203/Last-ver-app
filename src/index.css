@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.modal_title{
+  font-size: 20px;
+  padding-top: 3px !important;
+}
+.modal_text{
+  padding-top: 0 !important;
+}
+.modal_confirm_button{
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  border-radius : 3px !important;
+}
+.eqpmt-space {
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
