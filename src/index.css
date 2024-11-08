@@ -28,3 +28,6 @@ code {
   scrollbar-width: thin;
 }
 
+.rs-picker-popup{
+  z-index : 99999999 !important
+}

@@ -143,11 +143,11 @@ const DimBatt = () => {
               <InputNumber placeholder="%" size="sm" value={infoBatt[0].donnees.rendementBatt} onChange={(value)=>changeInfoBatt(value,"rendementBatt")} className="mt-2" />
             </div>
             <div className=" col-md-4 mt-2">
-              <p>Puissance maximal en charge</p>
+              <p>Puissance maximale en charge</p>
               <InputNumber placeholder="en W" size="sm" value={infoBatt[0].donnees.puissCharge} onChange={(value)=>changeInfoBatt(value,"puissCharge")} className="mt-2" />
             </div>
             <div className=" col-md-4 mt-2">
-              <p>Puissance maximal en décharge</p>
+              <p>Puissance maximale en décharge</p>
               <InputNumber placeholder="en W" size="sm" value={infoBatt[0].donnees.puissDecharge} onChange={(value)=>changeInfoBatt(value,"puissDecharge")} className="mt-2" />
             </div>
 

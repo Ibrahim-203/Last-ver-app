@@ -71,7 +71,7 @@ const CalculConso = () => {
       choixInstallation, 
       setChoixInstallation,
       choixTarif, 
-      setChoixTarif
+      setChoixTarif, ensBatt
       // Ajoute d'autres valeurs ou fonctions ici si nécessaire
     } = useAppContext();
 
@@ -81,7 +81,14 @@ const CalculConso = () => {
       const dataChoixTarif = [{label:'Super confort', value:863},{label:'Confort', value:795},{label:'Economique - social', value:370}]
       // Variable pour la consommation
       const [choixEstConso, setChoixEstConso] = useState("A");
-
+    useEffect(()=>{
+      console.log(installationInfo);
+      
+    })
+    useEffect(()=>{
+      console.log(ensBatt);
+      
+    })
 
 // Composant
 const Facture=({libelle, value})=>{
@@ -187,11 +194,13 @@ let totalPowerPerHour = Array(24).fill(0)
   // Courbe de charge et décharge de la batterie
   setEnsBatt(prevState=>{
     const newInfo = {...prevState}
-    const ensoleillement = newInfo.data
+    const tempData = Array(24).fill(0)
+    const ensoleillement = newInfo.ens
     ensoleillement.forEach((item,id)=>{
-      newInfo.data[id] = item*installationInfo.totalPanel
+      tempData[id] = item*installationInfo.totalPanel
     })
     newInfo.dataConso = hourConso
+    newInfo.data = tempData
     return newInfo
   })
   return true
@@ -329,7 +338,7 @@ const changeinfoOnd = (value, name)=>{
                 onChange={(value)=>changeRadio(value)}
               >
                 <Radio value="A">Bilan de puissance</Radio>
-                <Radio value="B">Consommation</Radio>
+                <Radio value="B" disabled>Consommation</Radio>
               </RadioGroup>
             </div>
           </div>
@@ -424,7 +433,7 @@ const changeinfoOnd = (value, name)=>{
               </div> */}
               </div>
               <div className="bouton-ajout mb-3">
-                  <button className="w-100 btn btn-light" onClick={addEquipement}>+ Ajouter une équipement</button>
+                  <button className="w-100 btn btn-light" onClick={addEquipement}>+ Ajouter un équipement</button>
                 </div>
             </>
           )}

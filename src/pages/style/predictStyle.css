@@ -1,0 +1,52 @@
+body{
+    background-color:  #f5ffff;
+}
+input[type=file]::file-selector-button {
+    margin-right: 8px;
+    border: none;
+    border-radius: 30px;
+    background: #074391;
+    padding: 8px 12px;
+    color: #fff;
+    cursor: pointer;
+    width: 150px;
+  }
+
+  input[type=file]{
+    border-radius: 30px;
+    background-color: white;
+    width: 60vw;
+    padding: 3px;
+  }
+
+.banner{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('bg_predict.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
+}
+
+.description{
+    background: rgba(255, 255, 255, .3);
+    box-shadow: 0 25px 45px rgba(255, 255, 255, .2);
+    padding: 30px;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-right: 2px solid rgba(255, 255, 255, .2);
+    border-bottom: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    --webkit-backdrop-filter: blur(10px);
+}
+.description h3{
+  color: white;
+  font-size: 2rem;
+}
+.description p{
+  color: rgb(15, 29, 18);
+  font-weight: bold;
+  font-size: 1.2rem;
+}

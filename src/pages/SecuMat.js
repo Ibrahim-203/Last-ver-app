@@ -178,7 +178,7 @@ const SecuMat = () => {
                   </div>
                   <div className="mb-3 ms-2">
                     <label for="" className="form-label ">
-                      Onduleur utilisation
+                      Onduleur - utilisation
                     </label>
                     <InputNumber 
                     size="sm" 

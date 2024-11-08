@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-     "serverStart": "nodemon server.js"
+    "serverStart": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tensorflow/tfjs": "^4.22.0",
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "nodemon": "^3.1.7"

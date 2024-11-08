@@ -37,6 +37,31 @@ L.Icon.Default.mergeOptions({
   iconUrl: require("leaflet/dist/images/marker-icon.png"),
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
+const lineOption = {
+  tension : 0.4,
+  scales: {
+    y: {
+        beginAtZero: true, // Assurez-vous que l'échelle commence à 0
+    },
+},
+plugins : {
+  zoom: {
+    pan: {
+        enabled: true,  // Activation du pan
+        mode: 'x',      // Permet de déplacer uniquement sur l'axe X
+    },
+    zoom: {
+        wheel: {
+            enabled: true,  // Activation du zoom à la molette
+        },
+        pinch: {
+            enabled: true,  // Activation du zoom par pincement sur appareils tactiles
+        },
+        mode: 'x',         // Zoom uniquement sur l'axe X
+    },
+},
+}
+}
 
 const Report = () => {
 
@@ -59,6 +84,7 @@ const Report = () => {
     infoSecu,
     ensBatt,
     setEnsBatt,
+    nomProjet,
     infoEnv
   } = useAppContext()
   const updateChartConso = (month)=>{
@@ -97,13 +123,13 @@ const Report = () => {
       
       for (let index = 0; index < totalDay; index++) {
         // créer un label 
-        if (eqpIndex == 0) {
+        if (eqpIndex === 0) {
           const date = index + 1
           const dayName = day[startDay]
           for (let hour = 0; hour < 24; hour++) {
             label.push(`${dayName}, le ${date} - ${hour} h`); // Ajoute le label pour chaque heure
         }
-          if (startDay = 6) {
+          if (startDay === 6) {
             startDay = 0
           }else{
             startDay ++
@@ -136,8 +162,8 @@ const Report = () => {
       {
         label: "Consommation énergétique  (kWh)",
         data: data, // Données de production solaire mensuelles
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgb(255, 0, 0)",
+        borderColor: "rgb(255, 0, 0)",
         borderWidth: 1,
       },
     ],}
@@ -148,10 +174,11 @@ const Report = () => {
       {
         label: "Production ",
         data: ensBatt.data, // Données de production solaire mensuelles
-        fill: true,
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        fill: false,
+        backgroundColor: "rgba(255, 165, 0, 0.6)",
+        borderColor: "rgba(255, 165, 0, 1)",
         borderWidth: 1,
+        tension : 0.2,
       },
       {
         label: "Consommation",
@@ -159,6 +186,7 @@ const Report = () => {
         backgroundColor: "rgba(192, 70, 192, 0.6)",
         borderColor: "rgba(192, 70, 192, 1)",
         borderWidth: 1,
+        tension : 0.4,
       },
       {
         label: "Capacité",
@@ -166,6 +194,7 @@ const Report = () => {
         backgroundColor: "rgba(40, 190, 0, 0.6)",
         borderColor: "rgba(40, 190, 0, 1)",
         borderWidth: 1,
+        tension : 0.2,
       },
       {
         label: "Soutiré",
@@ -173,6 +202,7 @@ const Report = () => {
         backgroundColor: "rgba(200, 50, 0, 0.6)",
         borderColor: "rgba(200, 50, 0, 1)",
         borderWidth: 1,
+        tension : 0.4,
       },
     ],
   };
@@ -181,10 +211,10 @@ const Report = () => {
     labels: mois,
     datasets: [
       {
-        label: "Production Solaire 2024 (kWh)",
+        label: "Irradiation Solaire 2024 (kWh)",
         data: dataEns, // Données de production solaire mensuelles
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgb(255, 165, 0)",
+        borderColor: "rgb(255, 165, 0)",
         borderWidth: 1,
       },
     ],
@@ -209,8 +239,8 @@ const Report = () => {
       {
         label: "Production Solaire 2024 (kWh)",
         data: data, // Données de production solaire mensuelles
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(0, 0, 255, 0.6)",
+        borderColor: "rgba(0, 0, 255, 1)",
         borderWidth: 1,
       },
     ],}
@@ -255,7 +285,7 @@ const Report = () => {
               </MapContainer>
             </div>
             <div className="col-md-6">
-
+                <h4 className='text-center'>Projet : {nomProjet}</h4>
             {!checked && <table
               className="table table-striped"
             >
@@ -263,7 +293,7 @@ const Report = () => {
                 <tr className="text-center">
                   <th scope="col">Installations</th>
                   <th scope="col" >Orientation</th>
-                  <th scope="col">Puissance souhaité</th>
+                  <th scope="col">Puissance souhaitée</th>
                 </tr>
               </thead>
               <tbody>
@@ -285,12 +315,14 @@ const Report = () => {
                 <div className="col-md-6">
                 <div className="card">
                   <h5 className="text-center">Ensoleillement</h5>
-                  <BarChart data={dataEnsoleillement} title="Ensoleillement" />
+              <Line data={dataEnsoleillement} options={lineOption}/>
+                  {/* <BarChart data={dataEnsoleillement} title="" /> */}
                 </div>
                 </div>
                 {productionUnitPanel.map((item, index)=>(<div className="col-md-6">
                 <div className="card">
-                  <BarChart data={dataTest(item)} title={`installation ${index + 1}`} />
+              <Line data={dataTest(item)} options={lineOption}/>
+                  {/* <BarChart data={dataTest(item)} title={`installation ${index + 1}`} /> */}
                 </div>
                 </div>)) }
                 
@@ -308,7 +340,8 @@ const Report = () => {
               <SelectPicker data={dataMonthConso} onChange={(value)=>updateChartConso(value)}/>
               </div>}
               </div>
-              <BarChart data={ monthConso ? dataconso(courbeChargeData.hourLabel,courbeChargeData.month) :dataconso(mois,courbeChargeData.year)} title="Courbe de charge" />
+              <Line data={ monthConso ? dataconso(courbeChargeData.hourLabel,courbeChargeData.month) :dataconso(mois,courbeChargeData.year)} options={lineOption}/>
+              {/* <BarChart data={ monthConso ? dataconso(courbeChargeData.hourLabel,courbeChargeData.month) :dataconso(mois,courbeChargeData.year)} title="Courbe de charge" /> */}
             </div>
             <div className="col-md-6">
 
@@ -317,7 +350,7 @@ const Report = () => {
           <p style={{fontSize:"22px", fontWeight:"bold", color:"orange", marginTop:"4px"}}>Partie Batterie</p>
           <div className="row ">
             <div className="col-md-6">
-              <Line data={dataEnsoleillementBatt}/>
+              <Line data={dataEnsoleillementBatt} options={lineOption}/>
             </div>
           
           </div>
@@ -333,9 +366,9 @@ const Report = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td scope="row">{infoSecu[0].resultat.cableBattOnd}</td>
-                  <td>{infoSecu[0].resultat.cableBattOnd}</td>
-                  <td>{infoSecu[0].resultat.cableOndUse}</td>
+                  <td scope="row">{infoSecu[0].resultat.cablePannOnd} mm2</td>
+                  <td>{infoSecu[0].resultat.cableBattOnd} mm2</td>
+                  <td>{infoSecu[0].resultat.cableOndUse} mm2</td>
                 </tr>
               </tbody>
             </table>

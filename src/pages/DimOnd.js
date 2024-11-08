@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SideBar from '../component/SideBar';
 import Header from '../component/Header';
 import { SelectPicker } from 'rsuite';
@@ -12,9 +12,11 @@ const DimOnd = () => {
   const navigate = useNavigate()
   const dataChoixSimul = [{label:'Doméstique', value:0.7},{label:'Industrielle', value:1},{label:'Autre usages', value:0.5}]
 
-  const {infoOnduleur, setInfoOnduleur, puissanceTotalInstallation, choixSimul, setChoixSimul} = useAppContext()
+  const {infoOnduleur, setInfoOnduleur, puissanceTotalInstallation, ensBatt , choixSimul, setChoixSimul} = useAppContext()
 
-
+  useEffect(()=>{
+    console.log(ensBatt);
+  }, [ensBatt])
   // Fonctions
   const changeinfoOnd = (value, name)=>{
     const newInfo = [...infoOnduleur]
@@ -75,7 +77,7 @@ const DimOnd = () => {
             <div className='card p-2'>
             <div className="row mt-3">
             <div className=" col-md-4 mt-2">
-              <p>Coefficient de simultanéïté</p>
+              <p>Coefficient de simultanéité</p>
               <SelectPicker size="sm" searchable={false} className="d-block mt-2" data={dataChoixSimul} value={choixSimul} onChange={(value)=>{setChoixSimul(value);changeinfoOnd(value, "coeffSimul"); console.log(value)}} placeholder="Choisir une coefficient"/>
             </div>
           </div>

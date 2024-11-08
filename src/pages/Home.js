@@ -2,6 +2,9 @@ import SideBar from '../component/SideBar';
 import Header from '../component/Header';
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import offlineIrrad from '../utils/irradiation.json'
+import madaJson from '../utils/mg.json'
+import { Icon } from '@iconify-icon/react';
 
 import {
   MapContainer,
@@ -9,28 +12,22 @@ import {
   useMapEvents,
   Marker,
   Popup,
+  GeoJSON
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L, { layerGroup } from "leaflet";
 import {
   Tabs,
-  Placeholder,
-  Input,
   InputNumber,
-  SelectPicker,
   Loader,
-  Radio,
-  RadioGroup,
   Toggle,
-  Panel, 
-  HStack,
-  Button,
 } from "rsuite";
 import { useAppContext } from '../context/AppContext';
 import { formConsoOnduleur } from '../utils/formule'
 import Swal from 'sweetalert2'
 import NavButton from '../component/NavButton';
 import axios from 'axios';
+import MyModal from '../component/MyModal';
 
 // Fix pour le chemin des icônes par défaut de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -41,25 +38,16 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
+const cities = {
+  "Nord": [-12.2833, 49.3] ,
+  "Est" : [-21, 47.4023] ,
+  "Centre" : [-18.8792, 47.5079],
+  "Ouest" : [-15.7167, 46.3167] ,
+  "Sud" :  [-23.35, 43.6667] 
+};
+
 const Home = () => {
   const navigate = useNavigate();
-
-  const customAlert = (title, content)=>{
-    return Swal.fire({
-      title: title,
-      text: content,
-      confirmButtonText: 'Ok',
-      backdrop: 'swal2-backdrop-hide',
-      buttonsStyling : false,
-      height:"60px",
-      confirmButtonColor:"orange",
-      customClass: {
-        title: 'modal_title',
-        htmlContainer:'modal_text',
-        confirmButton :"modal_confirm_button"
-      }
-    })
-  }
 
   const {
     nomProjet,
@@ -87,9 +75,113 @@ const Home = () => {
     setInfoBatt,
     dataEns, 
     setDataEns,
-    setEnsBatt
+    setEnsBatt,
+    ensBatt,
+    offline, setOffline
     // Ajoute d'autres valeurs ou fonctions ici si nécessaire
   } = useAppContext();
+
+  // Offline variables
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [regionsStyle, setRegionsStyle] = useState({});
+  const [selectedRegion, setSelectedRegion] = useState(null);
+
+
+
+  const updateNetworkStatus = () => {
+    setOffline(!navigator.onLine);
+    setPosition(null)
+  };
+  const handleFragClick = (city) => {
+   const res =  offlineIrrad[city].monthly;
+   const res_hour = offlineIrrad[city].daily;
+
+   let hourIrradValue = Array(24).fill(0) 
+    let hourIrradlabel = Array(24).fill(0)
+    
+    res_hour.forEach((item,id)=>{
+      hourIrradlabel[id] = item.time
+      hourIrradValue[id] = item['G(i)']
+    })
+
+
+   setDataEns(res.map((r) => r["H(i_opt)_m"]));
+   setEnsBatt(prevState=>{
+    const newInfo = {...prevState};
+    newInfo.label = hourIrradlabel;
+    newInfo.ens = hourIrradValue;
+    return newInfo
+    })
+    setSelectedCity(city);
+  };
+  // Mise à jour de la valeur du status
+  useEffect(() => {
+    // Ajouter des écouteurs pour les événements `online` et `offline`
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+
+    // Nettoyer les écouteurs lors du démontage du composant
+    return () => {
+      window.removeEventListener('online', updateNetworkStatus);
+      window.removeEventListener('offline', updateNetworkStatus);
+    };
+  }, []);
+
+  const onEachRegion = (feature, layer) => {
+
+     const regionId = feature.properties.region;
+    const currentStyle = regionsStyle[regionId] || {
+      fillColor: 'green', // Couleur de remplissage par défaut
+      fillOpacity: 0.5,
+      color: 'black',     // Couleur du contour par défaut
+      weight: 1           // Épaisseur du contour par défaut
+    };
+    layer.setStyle(currentStyle)
+    layer.on({
+      click: () => {
+        setPosition({ lat :cities[feature.properties.region][0], lng :cities[feature.properties.region][1] });
+        setLocalisation({latitude :cities[feature.properties.region][0], longitude :cities[feature.properties.region][1] })
+        handleFragClick(feature.properties.region)
+      }
+    });
+  };
+
+  // Offline 
+useEffect(()=>{
+  console.log(position);
+  
+},[position])
+
+  const [alertPanel, setAlertPanel] = useState(null)
+
+
+  const customAlert = (title, content)=>{
+    return Swal.fire({
+      title: title,
+      text: content,
+      confirmButtonText: 'Ok',
+      backdrop: 'swal2-backdrop-hide',
+      buttonsStyling : false,
+      height:"60px",
+      confirmButtonColor:"orange",
+      customClass: {
+        title: 'modal_title',
+        htmlContainer:'modal_text',
+        confirmButton :"modal_confirm_button"
+      }
+    })
+  }
+  const mois = ['jan','fev','mars','avr','mai','jiun','juil','août','sept','oct','nov','dec']
+
+
+
+    
+  useEffect(()=>{
+    console.log(dataEns);
+    console.log(ensBatt);
+  },[dataEns])
+
+  const [manualIrrad, setManualIrrad] = useState(Array(12).fill(0))
 
   const validateInstallationStep= ()=>{
 
@@ -207,6 +299,7 @@ const Home = () => {
         return true
   }
     // Variable pour le panneau solaire
+    const [loading, setLoading] = useState(false)
     const [isDataGet, setIsDataGet] = useState(false)
     const [activeKey, setActiveKey] = useState(1);
     const onChecked = (value) => {
@@ -226,10 +319,24 @@ const Home = () => {
         },
           ])
     };
+    
     const handleChange = (index, event) => {
       const { name, value } = event.target;
       if (!checked) {
         const newInstallation = [...installation];
+        if(name === "panelS" && value){
+          setAlertPanel(null)
+          const nbrPanel = newInstallation[index].puissInstallation/newInstallation[index].puissUnit
+          const valPanelP = nbrPanel/value
+          if(Number.isInteger(valPanelP)){
+            newInstallation[index].panelP = valPanelP
+          }else{
+            setAlertPanel(`Veillez Choisir un nombre qui divise ${nbrPanel}`)
+            newInstallation[index].panelP = ""
+            
+          }
+          
+        }
         newInstallation[index][name] = value;
         setInstallation(newInstallation);
       } else {
@@ -254,7 +361,10 @@ const Home = () => {
             // Kwh/m2
           } catch (error) {
             console.error("Erreur lors de l'appel API", error);
-          } 
+            alert("Erreur lors de la communication au server, veillez verifiez votre connection internet ou entrer manuelement l'irradiation.")
+          }finally{
+            setLoading(false)
+          }
         }
       };
       const getInfohourIrrad = async (localisation) => {
@@ -263,9 +373,10 @@ const Home = () => {
             const response = await axios.get("http://localhost:3001/proxy/hour", {
               params: localisation,
             });
-            let hourIrradValue = Array(24).fill(0)
+            let hourIrradValue = Array(24).fill(0) 
             let hourIrradlabel = Array(24).fill(0)
             const res = response.data.outputs.daily_profile;
+            
             res.forEach((item,id)=>{
               hourIrradlabel[id] = item.time
               hourIrradValue[id] = item['G(i)']
@@ -273,7 +384,7 @@ const Home = () => {
             setEnsBatt(prevState=>{
             const newInfo = {...prevState};
             newInfo.label = hourIrradlabel;
-            newInfo.data = hourIrradValue;
+            newInfo.ens = hourIrradValue;
             return newInfo
             })
             
@@ -285,9 +396,12 @@ const Home = () => {
       };
 
       useEffect(() => {
+        if(!offline){
         getInfoIrrad(localisation);
         console.log("here");
         getInfohourIrrad(localisation)
+        }
+
       }, [localisation]);
       const deleteInstallation = (index) => {
         const newInstallation = installation.filter((_, i) => i !== index);
@@ -326,6 +440,7 @@ const Home = () => {
   const MapEvents = () => {
     useMapEvents({
       click(e) {
+        setLoading(true)
         const { lat, lng } = e.latlng;
         setPosition({ lat, lng });
         console.log(`Latitude: ${lat}, Longitude: ${lng}`);
@@ -336,6 +451,7 @@ const Home = () => {
   };
   // Func-Equipement
     return (
+      <>
     <div className= "page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
     {/* Sidebar Start */}
@@ -345,69 +461,71 @@ const Home = () => {
     <div className= "body-wrapper">
       {/*  Header Start */}
       <Header step={"Installation solaire"}/>
+      
       {/*  Header End */}
-      <div className= "container-fluid">
+      <div className= "container-fluid pb-1">
+      {offline  ? <p className='d-flex align-items-center'><Icon icon="icon-park-outline:dot" style={{fontSize: "2rem", color:"orange"}}/> Hors ligne</p>:
+      <p className='d-flex align-items-center'><Icon icon="icon-park-outline:dot" style={{fontSize: "2rem", color:"green"}}/> En ligne</p>
+      }
         <div className='card p-2' >
-      <div className="row mt-3">
-            <div className="col-md-8">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group d-md-flex align-items-center">
+      <div className=" d-md-flex align-items-center justify-content-between m-1">
+            <div className="me-3">
+                  <div className="form-group d-flex align-items-center ">
                     <label className="col-form-label">Nom du projet</label>
                     <div className="ms-2">
                       <input
                         type="text"
-                        className="form-control form-control-sm"
+                        className="form-control "
                         value={nomProjet}
                         onChange={(event)=>setNomProjet(event.target.value)}
                       />
                     </div>
                   </div>
-                </div>
-                <div className="col-md-6 p-0">
-                  <div className="mt-1">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder="latitude"
-                          value={localisation.latitude}
-                          disabled
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder="longitude"
-                          value={localisation.longitude}
-                          disabled
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-            <div className="col mt-2">
+
+            <div className="mt-sm-2 mb-sm-2">
               <Toggle checked={checked} onChange={(value) => onChecked(value)}>
                 Utiliser la puissance de l'onduleur
               </Toggle>
             </div>
           </div>
           <div className="row mb-1">
-            <div className="col-md-4 col-sm-12">
+            <div className="col-md-4 col-sm-12" style={{position:"relative"}}>
+                    {loading && <div 
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                      zIndex: 1000,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                    <Loader size="lg" />
+                  </div>}
               <MapContainer
                 center={[-18.968, 47.546]} // Position initiale (Londres)
                 zoom={5}
                 style={{ height: "400px" }}
               >
-                <TileLayer
+                      {!offline ? (
+                      <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      />
+                    ) : (
+                      <GeoJSON data={madaJson} onEachFeature={onEachRegion}/> // Charger les données GeoJSON pour le mode hors ligne
+                    )}
+                {/* <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <MapEvents />
+                /> */}
+                
+                {/* Desactiver le click du map en offline */}
+                {!offline && <MapEvents />}
                 {position && (
                   <Marker position={[position.lat, position.lng]}>
                     <Popup>
@@ -418,6 +536,26 @@ const Home = () => {
               </MapContainer>
             </div>
             <div className="col-sm-12 col-md-7">
+            <div className='d-flex'>
+                <div className='me-3 mt-sm-2'>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm"
+                    placeholder="latitude"
+                    value={localisation.latitude}
+                    disabled
+                  />
+                </div>                  
+                <div className='mt-sm-2'>
+                  <input
+                    type="text"
+                    className="form-control form-control-sm"
+                    placeholder="longitude"
+                    value={localisation.longitude}
+                    disabled
+                  />
+                </div>
+            </div>
               <Tabs
                 activeKey={`${activeKey}`}
                 onSelect={(k) => (k !== "add" ? setActiveKey(k) : "")}
@@ -436,9 +574,9 @@ const Home = () => {
                         
                       </div>
                       <div className="row">
-                        <div className="col-sm-4">
+                        <div className="col-md-6 col-lg-4 col-sm-6 mb-3">
                           <div className="form-group">
-                            <label htmlFor="orientation">Orientation</label>
+                            <label htmlFor="orientation" className='mb-2'>Orientation</label>
                             <InputNumber
                               size="sm"
                               onChange={(value, event) =>
@@ -451,9 +589,9 @@ const Home = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-md-6 col-lg-4 col-sm-6 mb-3">
                           <div className="form-group">
-                            <label htmlFor="puissInstallation">Puissance souhaité</label>
+                            <label htmlFor="puissInstallation" className='mb-2'>Puissance souhaitée</label>
                             <InputNumber
                               size="sm"
                               onChange={(value, event) =>
@@ -466,9 +604,9 @@ const Home = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-md-6 col-lg-4 col-sm-6 mb-3">
                           <div className="form-group">
-                            <label htmlFor="puissanceUnit">
+                            <label htmlFor="puissanceUnit" className='mb-2'>
                               Puissance unitaire
                             </label>
                             <InputNumber
@@ -483,9 +621,9 @@ const Home = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-md-6 col-lg-4 col-sm-6 mb-3">
                           <div className="form-group">
-                            <label htmlFor="rendement">Rendement du panneau</label>
+                            <label htmlFor="rendement" className='mb-2'>Rendement du panneau</label>
                             <InputNumber
                               size="sm"
                               onChange={(value, event) =>
@@ -498,9 +636,9 @@ const Home = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-md-6 col-lg-4 col-sm-6 mb-3">
                           <div className="form-group">
-                            <label htmlFor="surface">Surface du panneau</label>
+                            <label htmlFor="surface" className='mb-2'>Surface du panneau</label>
                             <InputNumber
                               size="sm"
                               onChange={(value, event) =>
@@ -513,9 +651,9 @@ const Home = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-md-6 col-lg-4 col-sm-6 mb-3">
                           <div className="form-group">
-                            <label htmlFor="courantISC">Courant ISC</label>
+                            <label htmlFor="courantISC" className='mb-2'>Courant ISC</label>
                             <InputNumber
                               size="sm"
                               onChange={(value, event) =>
@@ -528,9 +666,9 @@ const Home = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-md-6 col-lg-4 col-sm-6 mb-3">
                           <div className="form-group">
-                            <label htmlFor="tensionVOC">Tension VOC</label>
+                            <label htmlFor="tensionVOC" className='mb-2'>Tension VOC</label>
                             <InputNumber
                               size="sm"
                               onChange={(value, event) =>
@@ -543,9 +681,9 @@ const Home = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-md-6 col-lg-4 col-sm-6 mb-3">
                           <div className="form-group">
-                            <label htmlFor="panelS">Panneau en série</label>
+                            <label htmlFor="panelS" className='mb-2'>Panneau en série</label>
                             <InputNumber
                               size="sm"
                               onChange={(value, event) =>
@@ -558,9 +696,9 @@ const Home = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-md-6 col-lg-4 col-sm-6 mb-3">
                           <div className="form-group">
-                            <label htmlFor="panelP">Panneau en parralèlle</label>
+                            <label htmlFor="panelP" className='mb-2'>Panneau en parallèle</label>
                             <InputNumber
                               size="sm"
                               onChange={(value, event) =>
@@ -570,7 +708,9 @@ const Home = () => {
                               id="panelP"
                               name="panelP"
                               placeholder=""
+                              disabled
                             />
+                            {alertPanel && <small id="helpId" className=" text-warning">{alertPanel}</small>}
                           </div>
                         </div>
                         <div className="col-md-4 d-flex align-items-center">
@@ -623,12 +763,28 @@ const Home = () => {
               </Tabs>
             </div>
           </div>
+          <div className='text-right'>
+          {/* <!-- Button trigger modal --> */}
+        {/* <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#mymodalcomponent">
+          Ajouter l'irradiation
+        </button> */}
           <NavButton handleclick={handleClick}/>
-          
+          </div>
+        {/* <MyModal title="Ajouter l'irradiation">
+          <div className='row'>
+            {manualIrrad.map((item, index)=>(
+            <div className='col-md-3 mt-2'>
+              <label for="exampleFormControlInput1" class="form-label">{mois[index]}</label>
+              <InputNumber value={item} onChange={(value)=>updateManualIrrad(index, value)}/>
+              </div> 
+            )) }
+          </div>
+        </MyModal> */}
           </div>
     </div>
   </div>
   </div>
+  </>
     );
 };
 

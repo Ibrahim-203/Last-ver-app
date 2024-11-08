@@ -11,13 +11,16 @@ import AutoConso from './pages/AutoConso'
 import EtudeEco from './pages/EtudeEco';
 import Report from './pages/Report';
 import { AppProvider } from './context/AppContext';
+import StartPage from './pages/StartPage';
+import ExcelTest from './pages/ExcelTest';
+import AggregateData from './pages/AggregateData';
 function App() {
   return (
   <AppProvider>
     <BrowserRouter>
     <Routes>
       
-      <Route path='/' element={<Home/>} />
+      <Route path='/installation' element={<Home/>} />
       <Route path='/dim-ond' element={<DimOnd/>} />
       <Route path='/calc-conso' element={<CalculConso/>} />
       <Route path='/dim-batt' element={<DimBatt/>} />
@@ -25,6 +28,9 @@ function App() {
       <Route path='/autocons' element={<AutoConso/>} />
       <Route path='/etude-eco' element={<EtudeEco/>} />
       <Route path='/report' element={<Report/>} />
+      <Route path='/' element={<StartPage/>} />
+      <Route path='/excel' element={<ExcelTest/>} />
+      <Route path='/aggr' element={<AggregateData/>}/>
       
     </Routes>
   </BrowserRouter>

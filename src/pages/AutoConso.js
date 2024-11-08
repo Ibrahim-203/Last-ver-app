@@ -18,15 +18,15 @@ const AutoConso = () => {
   const mois = ['jan','fev','mars','avr','mai','jiun','juil','août','sept','oct','nov','dec']
   const dataDog = {
     labels: [
-      'consommation',
-      'production'
+      'Autoconsommée',
+      'Autoproduite'
     ],
     datasets: [{
       label: "Profil d'autoconsommation",
       data: dataAutoconso,
       backgroundColor: [
-        'rgb(255, 99, 132)',
-        'rgb(54, 162, 235)',
+        'rgb(255, 3, 3)',
+        'rgb(255, 165, 0)',
       ],
       hoverOffset: 4
     }]

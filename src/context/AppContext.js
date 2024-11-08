@@ -5,6 +5,8 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
     // Variable de l'installation
+
+    const [offline, setOffline] = useState(!navigator.onLine);
     const [dataEns, setDataEns] = useState([]);
     const [dataAutoconso,setDataAutoconso] = useState([75,25])
     const [installation, setInstallation] = useState([
@@ -128,6 +130,7 @@ const [factureData, setFactureData] = useState([
     const [ensBatt, setEnsBatt] = useState({
       label:[],
       data:[],
+      ens : [],
       dataConso:[],
       dataBattery:Array(24).fill(0),
       soutire:0
@@ -258,6 +261,8 @@ const [factureData, setFactureData] = useState([
             setChoixInstallation,
             choixTarif, 
             setChoixTarif,
+            offline,
+            setOffline
         }}>
           {children}
         </AppContext.Provider>
