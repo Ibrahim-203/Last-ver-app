@@ -535,7 +535,7 @@ useEffect(()=>{
                 )}
               </MapContainer>
             </div>
-            <div className="col-sm-12 col-md-7">
+            <div className="col-sm-12 col-md-8">
             <div className='d-flex'>
                 <div className='me-3 mt-sm-2'>
                   <input

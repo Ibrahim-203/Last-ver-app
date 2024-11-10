@@ -51,4 +51,12 @@
     align-items: 'center';
     justify-content: 'center'
 }
+.rs-toast-container{
+  z-index: 9999999 !important;
+}
+
+.required::after{
+  content: " *";
+  color: red;
+}
 

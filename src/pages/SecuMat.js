@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SideBar from '../component/SideBar';
 import Header from '../component/Header';
 import { InputNumber } from 'rsuite';
@@ -12,7 +12,11 @@ const SecuMat = () => {
   
       const navigate = useNavigate()
       // Variable pour sécurité
-      const {infoSecu, setInfoSecu,infoBatt, infoOnduleur, installationInfo} = useAppContext()
+      const {infoSecu, setInfoSecu,infoBatt, infoOnduleur, installationInfo, ensBatt} = useAppContext()
+      useEffect(()=>{
+        console.log(ensBatt);
+        
+      })
       const customAlert = (title, content)=>{
         return Swal.fire({
           title: title,

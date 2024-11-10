@@ -441,7 +441,7 @@ const StartPage = () => {
                 <div className="row g-5">
                     <div className="col-md-6 col-lg-6 col-xl-4">
                         <div className="footer-item">
-                            <a href="/" className="p-0">
+                            <a href="#" className="p-0">
                                     <img src="./assets/images/front/logo.jpeg" style={{borderRadius:"50% ", width:"70px", height:"70px"}} alt=""/>
                                 {/* <img src="img/logo.png" alt="Logo"> */}
                             </a>

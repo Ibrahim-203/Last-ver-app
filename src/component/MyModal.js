@@ -14,7 +14,7 @@ const MyModal = ({title,children, handleValidate}) => {
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-        <button type="button" className="btn btn-primary" onClick={handleValidate}>Valider</button>
+        <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleValidate}>Valider</button>
       </div>
     </div>
   </div>

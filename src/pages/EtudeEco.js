@@ -9,7 +9,7 @@ import NavButton from '../component/NavButton';
 const EtudeEco = () => {
 
   const navigate = useNavigate()
-  const {infoEconomie, setInfoEconomie, courbeChargeData,puissanceTotalInstallation, setInfoEnv} = useAppContext()
+  const {infoEconomie, setInfoEconomie, courbeChargeData,puissanceTotalInstallation, setInfoEnv, ensBatt} = useAppContext()
 
       const validateEco = ()=>{
         let totalConsommation = 0
@@ -17,13 +17,14 @@ const EtudeEco = () => {
           totalConsommation +=item
         })
         // Economique result
-        const energieAutoConso = 0
-        const energieReste = 0
-        const energieSoutire = 0
-
-        console.log("Coût de production : ",coutProduction(energieAutoConso,energieReste,energieSoutire,infoEconomie[0].donnees.tarif))
-        console.log("Coût de l'installation : ",coutIstallation(100000, 200000))
-        console.log("Retour sur investissement: ",retourInstissement(coutIstallation(100000, 200000),coutProduction(20,200,0,0.875)))
+        const energieAutoConso = ensBatt.energieConsommee
+        const energieReste = ensBatt.energieReste
+        const energieSoutire = ensBatt.soutire.reduce((a,b)=>a+b,0)
+        const coutInstallation = infoEconomie[0].donnees.estimation
+        // On miltiplie par 365 pour avoir une valeur annuel
+        const coutProd =  Math.floor(coutProduction(energieAutoConso,energieReste,energieSoutire,infoEconomie[0].donnees.tarif)*365)
+        // console.log("Coût de l'installation : ",coutIstallation(100000, 200000))
+        const retourInvest = retourInstissement(coutInstallation,coutProd)
 
         // Environnementale
         const pollution = FormPollution(puissanceTotalInstallation)
@@ -38,6 +39,12 @@ const EtudeEco = () => {
           newInfo.pollution = pollution
           newInfo.soustrait = soustrait
           newInfo.CO2 = CO2Evite
+          return newInfo
+        })
+      setInfoEconomie(prevState=>{
+          const newInfo = [...prevState]
+          newInfo[0].resultat.coutProd = coutProd;
+          newInfo[0].resultat.retourInstissement = retourInvest;
           return newInfo
         })
       }

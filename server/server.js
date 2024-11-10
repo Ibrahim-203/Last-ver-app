@@ -1,5 +1,6 @@
 const express = require('express')
 const axios = require('axios');
+const db = require('./config/dbConfig')
 const cors = require('cors')
 
 // Tensorflow librairie
@@ -97,6 +98,34 @@ app.get('/proxy/hourtest',async (req,res)=>{
       } catch (error) {
         res.status(500).send('Erreur lors de la requête vers l\'API PVGIS');        
       }
+})
+
+app.get("/test", (req, res)=>{
+  const query = 'SELECT 1 + 1 AS solution';
+  db.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).send('Erreur lors de la requête.');
+    }
+    res.send(`La solution est : ${results[0].solution}`);
+  });
+
+
+  
+})
+
+app.post("/insert", (req, res)=>{
+  const {nom,prenom,mail, commentaire, satisfaction,recommandation} = req.body
+  const query = 'INSERT INTO `userinfo`(`nom`, `prenom`,`email` ,`commentaire`, `satisfaction`, `recommandation`) VALUES (?,?,?,?,?,?)';
+  db.query(query,[nom,prenom, mail, commentaire, satisfaction, recommandation] ,(err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Erreur lors de la requête.');
+      
+    }else{
+      res.status(200).send(results) 
+    }
+    
+  });
 })
 
 app.listen(3001, ()=>{

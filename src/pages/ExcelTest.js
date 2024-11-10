@@ -121,7 +121,7 @@ const ExcelTest = () => {
         const recomm = Array(24).fill("")
         data.map((item, index)=>{
           opt[index] = item.Irradiation - energie_evalue[index]
-          recomm[index] = item.Irradiation < energie_evalue[index] ? "Veuillez augmenter votre consommation pour pouvoir profiter au max de l’ensoleillement disponible " : " Veuillez ajuster votre charge car elle dépasse la puissance disponible"
+          recomm[index] = item.Irradiation < energie_evalue[index] ? " Veuillez ajuster votre charge car elle dépasse la puissance disponible" : "Veuillez augmenter votre consommation pour pouvoir profiter au max de l’ensoleillement disponible "
 
     })
 

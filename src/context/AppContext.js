@@ -133,7 +133,9 @@ const [factureData, setFactureData] = useState([
       ens : [],
       dataConso:[],
       dataBattery:Array(24).fill(0),
-      soutire:0
+      soutire:[],
+      energieReste : 0,
+      energieConsommee : 0
     });
     // Variable de la partie onduleur
     const [infoOnduleur, setInfoOnduleur] = useState([

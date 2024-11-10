@@ -14,6 +14,10 @@ import { AppProvider } from './context/AppContext';
 import StartPage from './pages/StartPage';
 import ExcelTest from './pages/ExcelTest';
 import AggregateData from './pages/AggregateData';
+import Print from './pages/Print';
+import Exemple from './pages/Exemple';
+ 
+
 function App() {
   return (
   <AppProvider>
@@ -31,6 +35,8 @@ function App() {
       <Route path='/' element={<StartPage/>} />
       <Route path='/excel' element={<ExcelTest/>} />
       <Route path='/aggr' element={<AggregateData/>}/>
+      <Route path='/print' element={<Print/>}/>
+      <Route path='/exemple' element={<Exemple/>}/>
       
     </Routes>
   </BrowserRouter>

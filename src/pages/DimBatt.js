@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../component/SideBar';
 import Header from '../component/Header';
 import { InputNumber } from 'rsuite';
@@ -14,8 +14,10 @@ const DimBatt = () => {
       const {infoBatt, 
             setInfoBatt,
             setEnsBatt,
+            infoEconomie
             } = useAppContext()
-    // Variable batterie
+    // Variable 
+    useEffect(()=>console.log(infoEconomie[0].donnees.tarif))
 
     const customAlert = (title, content)=>{
       return Swal.fire({
@@ -61,12 +63,17 @@ const DimBatt = () => {
       const puissanceDecharge = parseFloat(infoBatt[0].donnees.puissDecharge)
       const charge = 60
       let soutire = Array(24).fill(0)
+
       
       setEnsBatt(prevState=>{
         // Soutiré tavela
         const newInfo = {...prevState}
         let updateCapacity = capacite
+        let energieConso = 0
+        let resteEnergie = 0
         newInfo.dataConso.forEach((conso,id)=>{
+          energieConso += 1
+          resteEnergie += 1
           // Verifier si il y a une consommation
           if (conso>0) {
             // consommation inférieur à la production
@@ -79,14 +86,20 @@ const DimBatt = () => {
               if (capacite>updateCapacity) {
                 updateCapacity = updateCapacity+charge <= capacite ? updateCapacity+charge : capacite
               }
+              // Si 
+              resteEnergie+= newInfo.data[id] - conso
+              energieConso +=conso
           // consommation supérieur à la production
         }else {
           console.log("consommation > production", conso, ' : ', newInfo.data[id]);
           if(updateCapacity - (newInfo.dataConso[id] - newInfo.data[id])<puissanceDecharge){
             soutire[id] = newInfo.dataConso[id] - (updateCapacity - puissanceDecharge)
             updateCapacity = puissanceDecharge
+            energieConso += conso
           }else{
             updateCapacity = updateCapacity - (newInfo.dataConso[id] - newInfo.data[id])
+            resteEnergie+= updateCapacity
+            energieConso +=conso
           }
         }
         }else{
@@ -98,10 +111,13 @@ const DimBatt = () => {
             updateCapacity = updateCapacity+charge <= capacite ? updateCapacity+charge : capacite
           }
            }
+           resteEnergie += newInfo.data[id]
            
           }
         newInfo.dataBattery[id] = updateCapacity
       })
+      newInfo.energieReste = resteEnergie
+      newInfo.energieConsommee = energieConso
       newInfo.soutire = soutire
       return newInfo
       })
