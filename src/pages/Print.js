@@ -40,5 +40,4 @@ const Print = () => {
       </>
       );
 };
-
-      export default Print;
+export default Print;

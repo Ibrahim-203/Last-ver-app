@@ -31,3 +31,7 @@ code {
 .rs-picker-popup{
   z-index : 99999999 !important
 }
+
+.leaflet-container{
+  z-index: 3 !important;
+}

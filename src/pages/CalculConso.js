@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import SideBar from '../component/SideBar';
 import Header from '../component/Header';
 import {
@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { countSpecificDayInMonth } from '../utils/function';
 import NavButton from '../component/NavButton';
+import Joyride from 'react-joyride';
 
 const CalculConso = () => {
 
@@ -71,10 +72,12 @@ const CalculConso = () => {
       choixInstallation, 
       setChoixInstallation,
       choixTarif, 
-      setChoixTarif, ensBatt
+      setChoixTarif, 
+      ensBatt,
+      helpBox,
       // Ajoute d'autres valeurs ou fonctions ici si nécessaire
     } = useAppContext();
-
+  
        // Variable pour la consommation: Disponible version suivante
 
       const dataChoixInstallation = [{label:'Résidencielle', value:0.97},{label:'Commerciale', value:0.9},{label:'Industrielle', value:0.8}]
@@ -298,18 +301,47 @@ const changeinfoOnd = (value, name)=>{
       return newEquipement;
     });
   },[]);
+
 // Fonctions
+
+
+  // guide
+  const steps = [
+    {
+      target: '.eqpmt-space',
+      content: 'Entrer ici les informations de votre equipements',
+    },
+    {
+      target: '.usage',
+      content: 'Ouvrez cette panel pour entrer les détails de l\'utilisation de votre équipement.',
+    },
+    {
+      target: '.add-eqpmt',
+      content: 'Cliquer ici pour ajouter plus d\'équipement.',
+    },
+  ];
+
+
+
+
+  // guide
 
     return (
         <div className= "page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         {/* Sidebar Start */}
+        {helpBox && <Joyride
+        steps={steps}
+        continuous
+        showSkipButton
+        showProgress
+        />}
           <SideBar/>
         {/*  Sidebar End */}
         {/*  Main wrapper */}
         <div className= "body-wrapper">
           {/*  Header Start */}
-          <Header step={"Calcule de consommation"}/>
+          <Header step={"Calcule de consommation"} isHelp={helpBox}/>
           {/*  Header End */}
           <div className= "container-fluid">
             <div className='card p-2 mb-3' style={{marginBottom:"5px !important"}}>
@@ -392,12 +424,12 @@ const changeinfoOnd = (value, name)=>{
                         )}
                       </div>
                       <div className=" p-2">
-                        <Panel header="Usage" collapsible bordered>
+                        <Panel header="Usage" className='usage' collapsible bordered>
                           <div className="row ">
                             <div className="col-md-6 pl-0">
                           <div className="month">
-                            <div className="title">
-                              <p>Mois</p>
+                            <div className="title d-flex align-items-end mb-1">
+                              <p>Mois</p> <p className="ms-3 mt-0 border  bg-light px-1" onClick={()=>ChangeStateUse(index,'month')} style={{fontSize:"12px", cursor:"pointer"}}>Désactiver tout</p>
                             </div>
                         <HStack>
                           {equipementsUsage[index].month.map((use,i)=>(<Button key={i} color={use?"green":""} onClick={()=>changeEqpmntUsage(index,"month",i)} appearance={use?"primary":"default"} size="xs">{mois[i]}</Button>))}
@@ -406,8 +438,8 @@ const changeinfoOnd = (value, name)=>{
                           </div>
                           <div className="col-md-6">
                           <div className="jour">
-                            <div className="title">
-                              <p>Jours</p>
+                            <div className="title d-flex align-items-end mb-1">
+                              <p>Jours</p> <p className="ms-3 mt-0 border change-state bg-light px-1" onClick={()=>ChangeStateUse(index,'day')} style={{fontSize:"12px", cursor:"pointer"}}>Désactiver tout</p>
                             </div>
                         <HStack>
                           {equipementsUsage[index].day.map((use,i)=>(<Button key={i} color={use?"green":""} onClick={()=>changeEqpmntUsage(index,"day",i)} appearance={use?"primary":"default"} size="xs">{day[i]}</Button>))}
@@ -418,7 +450,7 @@ const changeinfoOnd = (value, name)=>{
     
                           <div className="Hour mt-1">
                             <div className="title d-flex align-items-end mb-1">
-                              <p>Heures</p> <p className="ml-3 mt-0 border text-secondary bg-light px-1" onClick={()=>ChangeStateUse(index,'hour')} style={{fontSize:"12px", cursor:"pointer"}}>Changer l'état</p>
+                              <p>Heures</p> <p className="ms-3 mt-0 border change-state  bg-light px-1" onClick={()=>ChangeStateUse(index,'hour')} style={{fontSize:"12px", cursor:"pointer"}}>Désactiver tout</p>
                             </div>    
                         <HStack>
                           {equipementsUsage[index].hour.map((use,i)=>(<Button key={i} color={use?"green":""} onClick={()=>changeEqpmntUsage(index,"hour",i)} appearance={use?"primary":"default"} size="xs">{i<10?"0":""}{i}h</Button>))}
@@ -433,7 +465,7 @@ const changeinfoOnd = (value, name)=>{
               </div> */}
               </div>
               <div className="bouton-ajout mb-3">
-                  <button className="w-100 btn btn-light" onClick={addEquipement}>+ Ajouter un équipement</button>
+                  <button className="w-100 btn btn-light add-eqpmt" onClick={addEquipement}>+ Ajouter un équipement</button>
                 </div>
             </>
           )}

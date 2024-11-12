@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useEffect,useState } from 'react';
 import SideBar from '../component/SideBar';
 import Header from '../component/Header';
 import { SelectPicker } from 'rsuite';
@@ -12,7 +12,7 @@ const DimOnd = () => {
   const navigate = useNavigate()
   const dataChoixSimul = [{label:'Doméstique', value:0.7},{label:'Industrielle', value:1},{label:'Autre usages', value:0.5}]
 
-  const {infoOnduleur, setInfoOnduleur, puissanceTotalInstallation, ensBatt , choixSimul, setChoixSimul} = useAppContext()
+  const {infoOnduleur, setInfoOnduleur, puissanceTotalInstallation, ensBatt , choixSimul, setChoixSimul,helpBox} = useAppContext()
 
   useEffect(()=>{
     console.log(ensBatt);
@@ -71,7 +71,7 @@ const DimOnd = () => {
         {/*  Main wrapper */}
         <div className= "body-wrapper">
           {/*  Header Start */}
-          <Header step={"Dimensionnement de l'onduleur"}/>
+          <Header step={"Dimensionnement de l'onduleur"} isHelp={helpBox}/>
           {/*  Header End */}
           <div className= "container-fluid">
             <div className='card p-2'>

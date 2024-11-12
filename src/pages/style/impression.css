@@ -6,3 +6,6 @@
       visibility: visible;
     }
   }
+
+.test-item--page-break    
+{border:2px dashed red; margin-bottom:16px; color:red;}

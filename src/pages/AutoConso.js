@@ -72,7 +72,7 @@ const AutoConso = () => {
               <tr className="text-center">
                 <td scope="row">{mois[id]}</td>
                 <td>{item.toFixed(2)}</td>
-                <td>{courbeChargeData.year[id]}</td>
+                <td>{courbeChargeData.year[id].toFixed(2)}</td>
               </tr>
               ))}
                 

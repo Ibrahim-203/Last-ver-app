@@ -7,12 +7,13 @@ import Swal from 'sweetalert2'
 import { formIntensite, formIntensiteAC, formSection } from '../utils/formule';
 import NavButton from '../component/NavButton';
 import { useNavigate } from 'react-router-dom';
+import Joyride from 'react-joyride';
 
 const SecuMat = () => {
   
       const navigate = useNavigate()
       // Variable pour sécurité
-      const {infoSecu, setInfoSecu,infoBatt, infoOnduleur, installationInfo, ensBatt} = useAppContext()
+      const {infoSecu, setInfoSecu,infoBatt, infoOnduleur, installationInfo, ensBatt,helpBox} = useAppContext()
       useEffect(()=>{
         console.log(ensBatt);
         
@@ -87,16 +88,33 @@ const SecuMat = () => {
         setInfoSecu(newInfo)
       }
 
+       // guide
+  const steps = [
+    {
+      target: '.champs-eqpmt',
+      content: 'Entrer ici les distances entre les equipements - NB : pour une direction seulement',
+    },
+  ];
+
+
+
+
+  // guide
+
+
     return (
         <div className= "page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         {/* Sidebar Start */}
+        {helpBox && <Joyride
+        steps={steps}
+        />}
           <SideBar/>
         {/*  Sidebar End */}
         {/*  Main wrapper */}
         <div className= "body-wrapper">
           {/*  Header Start */}
-          <Header step={"Sécurité des matérieaux"}/>
+          <Header step={"Sécurité des matérieaux"} isHelp={helpBox}/>
           {/*  Header End */}
           <div className= "container-fluid">
             <div className='card p-2'>
@@ -157,7 +175,7 @@ const SecuMat = () => {
             </div>
             <div>
               <h5 className='card-title'>Section du fils</h5>
-              <div className="d-md-flex">
+              <div className="d-md-flex champs-eqpmt">
                   <div className="mb-3 ms-2">
                     <label for="" className="form-label">
                       Panneau - onduleur

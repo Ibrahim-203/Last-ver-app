@@ -114,9 +114,9 @@ app.get("/test", (req, res)=>{
 })
 
 app.post("/insert", (req, res)=>{
-  const {nom,prenom,mail, commentaire, satisfaction,recommandation} = req.body
-  const query = 'INSERT INTO `userinfo`(`nom`, `prenom`,`email` ,`commentaire`, `satisfaction`, `recommandation`) VALUES (?,?,?,?,?,?)';
-  db.query(query,[nom,prenom, mail, commentaire, satisfaction, recommandation] ,(err, results) => {
+  const {nom,prenom,mail, commentaire, satisfaction,recommandation, service} = req.body
+  const query = 'INSERT INTO `userinfo`(`nom`, `prenom`,`email` ,`commentaire`, `satisfaction`, `recommandation`,`service`) VALUES (?,?,?,?,?,?,?)';
+  db.query(query,[nom,prenom, mail, commentaire, satisfaction, recommandation,service] ,(err, results) => {
     if (err) {
       console.log(err);
       return res.status(500).send('Erreur lors de la requête.');
@@ -127,6 +127,31 @@ app.post("/insert", (req, res)=>{
     
   });
 })
+
+app.get("/info", (req, res)=>{
+  const query = 'SELECT * from `userinfo` order by `created_date` desc limit 3';
+  db.query(query ,(err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Erreur lors de la requête.');
+      
+    }else{
+      res.status(200).send(results) 
+    }
+    
+  });
+}) 
+app.get("/getRegion", async (req, res)=>{
+  const {latitude, longitude} = req.query
+
+  try {
+    const response = await axios.get("https://nominatim.openstreetmap.org/reverse?lat=-19.921712747556207&lon=47.04166419106625")
+    res.json(response.data)
+  } catch (error) {
+    
+  }
+  
+}) 
 
 app.listen(3001, ()=>{
     console.log("Server is running...");     

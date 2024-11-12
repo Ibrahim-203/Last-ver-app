@@ -6,6 +6,7 @@ import offlineIrrad from '../utils/irradiation.json'
 import madaJson from '../utils/mg.json'
 import { Icon } from '@iconify-icon/react';
 
+
 import {
   MapContainer,
   TileLayer,
@@ -28,6 +29,7 @@ import Swal from 'sweetalert2'
 import NavButton from '../component/NavButton';
 import axios from 'axios';
 import MyModal from '../component/MyModal';
+import Joyride from 'react-joyride';
 
 // Fix pour le chemin des icônes par défaut de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -37,6 +39,26 @@ L.Icon.Default.mergeOptions({
   iconUrl: require("leaflet/dist/images/marker-icon.png"),
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
+
+// Tuto variable
+
+const steps = [
+  {
+    target: '.status-enligne',
+    content: 'Cette message vous indique votre status de connexion',
+  },
+  {
+    target: '.nom-projet',
+    content: 'Entrez ici le nom de votre projet.',
+  },
+  {
+    target: '.onglet-plus',
+    content: 'Cliquer ici pour ajouter plus d\'installation',
+  },
+];
+
+// Tuto variable
+
 
 const cities = {
   "Nord": [-12.2833, 49.3] ,
@@ -77,7 +99,10 @@ const Home = () => {
     setDataEns,
     setEnsBatt,
     ensBatt,
-    offline, setOffline
+    offline, 
+    setOffline,
+    helpBox,
+    setHelpbox,
     // Ajoute d'autres valeurs ou fonctions ici si nécessaire
   } = useAppContext();
 
@@ -395,11 +420,25 @@ useEffect(()=>{
         }
       };
 
+      const getRegionByLocalisation = async (localisation) => {
+        if (localisation.latitude !== 0 && localisation.longitude !== 0) {
+          try {
+            const response = await axios.get("http://localhost:3001/getregion", {
+              params: localisation,
+            });
+           console.log(response)
+           
+          } catch (error) {
+            console.error("Erreur lors de l'appel API", error);
+          }
+        }
+      };
+
       useEffect(() => {
         if(!offline){
         getInfoIrrad(localisation);
-        console.log("here");
-        getInfohourIrrad(localisation)
+        getInfohourIrrad(localisation);
+        getRegionByLocalisation(localisation);
         }
 
       }, [localisation]);
@@ -449,28 +488,37 @@ useEffect(()=>{
     });
     return null;
   };
+  useEffect(()=>{
+    console.log(helpBox);
+    
+  },[helpBox])
   // Func-Equipement
+  const [runTuto, setRunTuto] = useState(true)
     return (
       <>
     <div className= "page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
+      {helpBox && <Joyride 
+      run={runTuto}
+      continuous
+      steps={steps} />}
     {/* Sidebar Start */}
       <SideBar/>
     {/*  Sidebar End */}
     {/*  Main wrapper */}
     <div className= "body-wrapper">
       {/*  Header Start */}
-      <Header step={"Installation solaire"}/>
+      <Header step={"Installation solaire"} isHelp={helpBox}/>
       
       {/*  Header End */}
       <div className= "container-fluid pb-1">
       {offline  ? <p className='d-flex align-items-center'><Icon icon="icon-park-outline:dot" style={{fontSize: "2rem", color:"orange"}}/> Hors ligne</p>:
-      <p className='d-flex align-items-center'><Icon icon="icon-park-outline:dot" style={{fontSize: "2rem", color:"green"}}/> En ligne</p>
+      <p className='d-flex align-items-center status-enligne'><Icon icon="icon-park-outline:dot" style={{fontSize: "2rem", color:"green"}}/> En ligne</p>
       }
         <div className='card p-2' >
       <div className=" d-md-flex align-items-center justify-content-between m-1">
             <div className="me-3">
-                  <div className="form-group d-flex align-items-center ">
+                  <div className="form-group d-flex align-items-center nom-projet">
                     <label className="col-form-label">Nom du projet</label>
                     <div className="ms-2">
                       <input
@@ -753,6 +801,7 @@ useEffect(()=>{
                     eventKey="add"
                     title={
                       <span
+                      className='onglet-plus'
                         onClick={addInstallation}
                         style={{ fontSize: "16px", fontWeight: "bold" }}
                       >

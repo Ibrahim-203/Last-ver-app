@@ -7,6 +7,7 @@ export const AppProvider = ({ children }) => {
     // Variable de l'installation
 
     const [offline, setOffline] = useState(!navigator.onLine);
+    const [helpBox, setHelpBox] = useState(false);
     const [dataEns, setDataEns] = useState([]);
     const [dataAutoconso,setDataAutoconso] = useState([75,25])
     const [installation, setInstallation] = useState([
@@ -264,7 +265,9 @@ const [factureData, setFactureData] = useState([
             choixTarif, 
             setChoixTarif,
             offline,
-            setOffline
+            setOffline,
+            helpBox,
+            setHelpBox
         }}>
           {children}
         </AppContext.Provider>

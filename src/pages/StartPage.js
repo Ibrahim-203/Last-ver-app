@@ -1,10 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import CarouselPage from '../component/CarouselPage';
+import axios from 'axios';
 
 const StartPage = () => {
     const [active, setActive] = useState("accueil")
-    
+    const [infoClient, setInfoClient] = useState([])
+
+    const getClientThinking = async (data) => {
+
+        try {
+          const response = await axios.get(`http://localhost:3001/info`);
+          
+          setInfoClient(response.data)
+          
+          // getClients(); // Recharger les données après l'insertion
+        } catch (error) {
+          console.error('Erreur lors de l\'envoi des données:', error);
+        }
+      }
+    useEffect(()=>{
+        getClientThinking()
+    },[])
+    useEffect(()=>{
+        infoClient.forEach((item)=>{
+            console.log(item);
+            
+        })
+        // console.log(infoClient.forEach((item)=>item));
+        
+    },[infoClient])
     return (
         <div className='body-front'>
         {/* Spinner Start */}
@@ -309,16 +334,38 @@ const StartPage = () => {
         {/* Team End */}
 
         {/* Testimonial Start */}
-        {/* <div className="container-fluid testimonial pb-5">
+        <div className="container-fluid testimonial pb-5">
             <div className="container pb-5">
                 <div className="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style={{maxWidth: "800px;"}}>
                     <h4 className="text-primary-front">Avis</h4>
                     <h1 className="display-5 mb-4">Notre client</h1>
-                    <p className="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
+                    <p className="mb-0">Lisez ici les avis que nos visiteurs nous ont laissé durant leurs utilisation de notre application.
                     </p>
                 </div>
-                <div className="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.2s">
-                    <div className="testimonial-item">
+                <div className="row">
+                    
+                        {infoClient && infoClient.map((item, id)=>{
+ 
+                            return<div className="col-md-4" key={id}> 
+                            <div className="card p-2">
+                            <div className="card-header text-center">
+                                <i className='fa fa-user' style={{fontSize:"3rem"}}></i>
+                            </div>
+                            <div className="card-content">
+                                <h5 className='text-center'>{item.nom} {item.prenom}</h5>
+                                <p className='text-center'>{item.commentaire}</p>
+                                <div className="d-flex mt-3 align-items-center justify-content-between">
+                                    <p>Avis: {item.satisfaction}/5</p>
+                                   <p className='m-0'>recommandation : {item.recommandation}/10</p>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        })}
+                </div>
+                {/* <div className="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.2s">
+                    {infoClient.length>0 && infoClient.map(()=>(
+                        <div className="testimonial-item">
                         <div className="testimonial-quote-left">
                             <i className="fas fa-quote-left fa-2x"></i>
                         </div>
@@ -346,93 +393,10 @@ const StartPage = () => {
                             <i className="fas fa-quote-right fa-2x"></i>
                         </div>
                     </div>
-                    <div className="testimonial-item">
-                        <div className="testimonial-quote-left">
-                            <i className="fas fa-quote-left fa-2x"></i>
-                        </div>
-                        <div className="testimonial-img">
-                            <img src="./assets/images/front/testimonial-2.jpg" className="img-fluid" alt="Image"/>
-                        </div>
-                        <div className="testimonial-text">
-                            <p className="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis blanditiis excepturi quisquam temporibus voluptatum reprehenderit culpa, quasi corrupti laborum accusamus.
-                            </p>
-                        </div>
-                        <div className="testimonial-title">
-                            <div>
-                                <h4 className="mb-0">Person Name</h4>
-                                <p className="mb-0">Profession</p>
-                            </div>
-                            <div className="d-flex text-primary-front">
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div className="testimonial-quote-right">
-                            <i className="fas fa-quote-right fa-2x"></i>
-                        </div>
-                    </div>
-                    <div className="testimonial-item">
-                        <div className="testimonial-quote-left">
-                            <i className="fas fa-quote-left fa-2x"></i>
-                        </div>
-                        <div className="testimonial-img">
-                            <img src="./assets/images/front/testimonial-3.jpg" className="img-fluid" alt="Image"/>
-                        </div>
-                        <div className="testimonial-text">
-                            <p className="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis blanditiis excepturi quisquam temporibus voluptatum reprehenderit culpa, quasi corrupti laborum accusamus.
-                            </p>
-                        </div>
-                        <div className="testimonial-title">
-                            <div>
-                                <h4 className="mb-0">Person Name</h4>
-                                <p className="mb-0">Profession</p>
-                            </div>
-                            <div className="d-flex text-primary-front">
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div className="testimonial-quote-right">
-                            <i className="fas fa-quote-right fa-2x"></i>
-                        </div>
-                    </div>
-                    <div className="testimonial-item">
-                        <div className="testimonial-quote-left">
-                            <i className="fas fa-quote-left fa-2x"></i>
-                        </div>
-                        <div className="testimonial-img">
-                            <img src="./assets/images/front/testimonial-2.jpg" className="img-fluid" alt="Image"/>
-                        </div>
-                        <div className="testimonial-text">
-                            <p className="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis blanditiis excepturi quisquam temporibus voluptatum reprehenderit culpa, quasi corrupti laborum accusamus.
-                            </p>
-                        </div>
-                        <div className="testimonial-title">
-                            <div>
-                                <h4 className="mb-0">Person Name</h4>
-                                <p className="mb-0">Profession</p>
-                            </div>
-                            <div className="d-flex text-primary-front">
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                                <i className="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <div className="testimonial-quote-right">
-                            <i className="fas fa-quote-right fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
+                    ))}
+                </div> */}
             </div>
-        </div> */}
+        </div>
         {/* Testimonial End */}
 
         {/* Footer Start */}
@@ -473,21 +437,21 @@ const StartPage = () => {
                     <div className="col-md-6 col-lg-6 col-xl-3">
                         <div className="footer-item">
                             <h4 className="text-white mb-4">Contact Info</h4>
-                            <div className="d-flex align-items-center">
-                                <i className="fas fa-map-marker-alt text-primary-front me-3"></i>
-                                <p className="text-white mb-0">123 Street New York.USA</p>
+                            <div className="d-flex align-items-start">
+                                <i className="fas fa-map-marker-alt text-primary-front me-3 mt-2"></i>
+                                <p className="text-white mb-0">LOT IVL 176 N, Anosivavaka First Floor, Antananarivo 101 Madagascar</p>
                             </div>
                             <div className="d-flex align-items-center">
                                 <i className="fas fa-envelope text-primary-front me-3"></i>
-                                <p className="text-white mb-0">info@example.com</p>
+                                <p className="text-white mb-0">s.hafizat@wattec.mg</p>
                             </div>
                             <div className="d-flex align-items-center">
                                 <i className="fa fa-phone-alt text-primary-front me-3"></i>
-                                <p className="text-white mb-0">(+012) 3456 7890</p>
+                                <p className="text-white mb-0">(+261) 32 91 591 56</p>
                             </div>
                             <div className="d-flex align-items-center mb-4">
                                 <i className="fab fa-firefox-browser text-primary-front me-3"></i>
-                                <p className="text-white mb-0">Yoursite@ex.com</p>
+                                <p className="text-white mb-0">www.wattec.mg</p>
                             </div>
                             {/* <div className="d-flex">
                                 <a className="btn btn-primary btn-sm-square rounded-circle me-3" href="#"><i className="fab fa-facebook-f text-white"></i></a>
@@ -507,7 +471,7 @@ const StartPage = () => {
             <div className="container">
                 <div className="row g-4 align-items-center">
                     <div className="col-md-6 text-center text-md-start mb-md-0">
-                        <span className="text-body"><a href="#" className=" text-white"><i className="fas fa-copyright text-light me-2"></i>Hafizat</a>, Tous droit reservé.</span>
+                        <span className="text-white"><a href="#" className=" text-white"><i className="fas fa-copyright text-light me-2"></i>HAFIZAT 2024</a>| Tous droit reservé.|</span>
                     </div>
                 </div>
             </div>

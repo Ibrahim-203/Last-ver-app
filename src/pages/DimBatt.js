@@ -14,7 +14,8 @@ const DimBatt = () => {
       const {infoBatt, 
             setInfoBatt,
             setEnsBatt,
-            infoEconomie
+            infoEconomie,
+            helpBox
             } = useAppContext()
     // Variable 
     useEffect(()=>console.log(infoEconomie[0].donnees.tarif))
@@ -145,7 +146,7 @@ const DimBatt = () => {
         {/*  Main wrapper */}
         <div className= "body-wrapper">
           {/*  Header Start */}
-          <Header step={"Dimensionnement de la batterie"}/>
+          <Header step={"Dimensionnement de la batterie"} isHelp={helpBox}/>
           {/*  Header End */}
           <div className= "container-fluid">
             <div className='card p-2'>

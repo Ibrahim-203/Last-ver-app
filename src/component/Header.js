@@ -1,6 +1,10 @@
 import React from 'react';
+import { Checkbox } from 'rsuite';
+import { useAppContext } from '../context/AppContext';
 
-const Header = ({step}) => {
+const Header = ({step, isHelp}) => {
+  const{ setHelpBox} = useAppContext()
+
     return (
         <header className= "app-header">
         <nav className= "navbar navbar-expand-lg ">
@@ -15,9 +19,11 @@ const Header = ({step}) => {
                 <i className= "ti ti-bell-ringing"></i>
                 <div className= "notification bg-primary rounded-circle"></div>
               </a>
+              
             </li>
           </ul>
           <div className= "navbar-collapse justify-content-end pe-3" id="navbarNav">
+          <Checkbox className='me-2' defaultChecked={isHelp} value={isHelp} onChange={(value)=>setHelpBox(!value)}>Dialogue d'aide</Checkbox>
             <h5>{step}</h5>
           </div>
         </nav>

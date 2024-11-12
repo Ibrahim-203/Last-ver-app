@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../component/SideBar';
 import Header from '../component/Header';
 import { InputNumber } from 'rsuite';
@@ -7,6 +7,18 @@ import { coutIstallation, coutProduction, FormCO2, FormPollution, FormSoustraitA
 import { useNavigate } from 'react-router-dom';
 import NavButton from '../component/NavButton';
 const EtudeEco = () => {
+
+  const convertDec2YearMonth = (decNumber)=>{
+    const year =  parseInt(decNumber)
+    const monthDec = (decNumber - year)*12;
+    const month = (monthDec - parseInt(monthDec))>0.5?parseInt(monthDec + 1) : parseInt(monthDec) 
+    if (year ===0) {
+      return month + ' mois'
+    }else{
+      return year+ " ans "+ month +" mois"
+    }
+    
+  }
 
   const navigate = useNavigate()
   const {infoEconomie, setInfoEconomie, courbeChargeData,puissanceTotalInstallation, setInfoEnv, ensBatt} = useAppContext()
@@ -24,15 +36,12 @@ const EtudeEco = () => {
         // On miltiplie par 365 pour avoir une valeur annuel
         const coutProd =  Math.floor(coutProduction(energieAutoConso,energieReste,energieSoutire,infoEconomie[0].donnees.tarif)*365)
         // console.log("Coût de l'installation : ",coutIstallation(100000, 200000))
-        const retourInvest = retourInstissement(coutInstallation,coutProd)
+        const retourInvest = convertDec2YearMonth(retourInstissement(coutInstallation,coutProd))
 
         // Environnementale
         const pollution = FormPollution(puissanceTotalInstallation)
         const soustrait = FormSoustraitAns(puissanceTotalInstallation)
         const CO2Evite = FormCO2(soustrait, pollution)
-        console.log('pollution',pollution)
-        console.log('soustrait',soustrait)
-        console.log('CO2Evite', CO2Evite)
 
         setInfoEnv(prevState=>{
           const newInfo = {...prevState}
