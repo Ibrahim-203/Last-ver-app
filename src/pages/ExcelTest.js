@@ -259,12 +259,12 @@ const ExcelTest = () => {
     },
     {
       target: '.download-model',
-      content: 'Cliquer ici Pour télécharger un modèl, c\'est un donnée de 24 lignes qui fait référence à l\'heure de minuit à 23h. Assuré vous de bien le remplir.',
+      content: 'Cliquer ici Pour télécharger un modèle, ce sont des données de 24 lignes qui font référence à l\'heure de minuit à 23h. Assurez-vous de bien les remplir.',
       placement: 'top'
     },
     {
       target: '.import-model',
-      content: 'Cliquer ici pour importer la modèle que vous venez de remplir.',
+      content: 'Cliquer ici pour importer le modèle que vous venez de remplir.',
       placement: 'top'
     },
     {
@@ -303,11 +303,11 @@ const ExcelTest = () => {
         <div className=" text-center">
           <div className="bg-light pt-2 pb-2 mx-auto mb-3 w-75 rounded-pill">
             <h3 className='mb-1 text-success text-bold'>Bienvenu sur la page de prédiction</h3>
-            <p className='mb-3'>On vous demande d'entrer votre donnée afin de commencer la prédiction</p>
+            <p className='mb-3'>On vous demande d'entrer vos données afin de commencer la prédiction</p>
           </div>
           <input type="file" className='import-model' onChange={handleFileUpload} />
           <div className="btn-action d-flex justify-content-center mt-2">
-            <buton className="btn btn-primary mx-2 download-model" data-bs-toggle="modal" data-bs-target="#mymodalcomponent"><i className='fas fa-download'></i> Télecharger une modèle</buton>
+            <buton className="btn btn-primary mx-2 download-model" data-bs-toggle="modal" data-bs-target="#mymodalcomponent"><i className='fas fa-download'></i> Télecharger un modèle</buton>
             {/* <buton className="btn btn-info" onClick={objectTest} >
               <i className="fa fa-video"></i> Voir un tuto 
               </buton> */}

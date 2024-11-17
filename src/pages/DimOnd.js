@@ -78,7 +78,7 @@ const DimOnd = () => {
             <div className="row mt-3">
             <div className=" col-md-4 mt-2">
               <p>Coefficient de simultanéité</p>
-              <SelectPicker size="sm" searchable={false} className="d-block mt-2" data={dataChoixSimul} value={choixSimul} onChange={(value)=>{setChoixSimul(value);changeinfoOnd(value, "coeffSimul"); console.log(value)}} placeholder="Choisir une coefficient"/>
+              <SelectPicker size="sm" searchable={false} className="d-block mt-2" data={dataChoixSimul} value={choixSimul} onChange={(value)=>{setChoixSimul(value);changeinfoOnd(value, "coeffSimul"); console.log(value)}} placeholder="Choisir un coefficient correspondant"/>
             </div>
           </div>
               </div>

@@ -74,7 +74,8 @@ const StartPage = () => {
         <div className="container-fluid position-relative p-0">
             <nav className="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
                 <a href="" className="navbar-brand p-0">
-                    <img src="./assets/images/front/logo.jpeg" style={{borderRadius:"50% "}} alt=""/>
+                    <img src="./assets/images/front/logo.jpeg" className='me-1' style={{borderRadius:"50% "}} alt=""/>
+                    <img src="./assets/images/front/logo_wattec.jpeg" alt=""/>
                     {/* <img src="img/logo.png" alt="Logo"> */}
                 </a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -210,7 +211,7 @@ const StartPage = () => {
             <div className="container pb-5">
                 <div className="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style={{maxWidth: "800px;"}}>
                     <h4 className="text-primary-front">Notre Services</h4>
-                    <h1 className="display-5 mb-4">Profiter des meilleurs services</h1>
+                    <h1 className="display-5 mb-4">Profiter de nos meilleurs services</h1>
                     <p className="mb-0">Nos services vous offrent une vision complète de votre consommation énergétique. De l'évaluation de vos besoins actuels à la prédiction de votre consommation future, nos outils sont conçus pour vous aider à optimiser et gérer efficacement vos ressources énergétiques. Que ce soit pour suivre vos habitudes de consommation ou planifier pour demain, nous vous accompagnons dans chaque étape pour une énergie plus durable et maîtrisée.
                     </p>
                 </div>
@@ -338,8 +339,8 @@ const StartPage = () => {
             <div className="container pb-5">
                 <div className="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style={{maxWidth: "800px;"}}>
                     <h4 className="text-primary-front">Avis</h4>
-                    <h1 className="display-5 mb-4">Notre client</h1>
-                    <p className="mb-0">Lisez ici les avis que nos visiteurs nous ont laissé durant leurs utilisation de notre application.
+                    <h1 className="display-5 mb-4">Nos clients</h1>
+                    <p className="mb-0">Lisez ici les avis laissés par nos visiteurs durant l'utilisation de l'application.
                     </p>
                 </div>
                 <div className="row">
@@ -403,13 +404,13 @@ const StartPage = () => {
         <div className="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
             <div className="container py-5 border-start-0 border-end-0" style={{border: "1px solid", borderColor: "rgb(255, 255, 255, 0.08);"}}>
                 <div className="row g-5">
-                    <div className="col-md-6 col-lg-6 col-xl-4">
+                    <div className="col-md-4 col-lg-6 col-xl-4">
                         <div className="footer-item">
-                            <a href="#" className="p-0">
+                            <a href="#" className="p-0 text-center">
                                     <img src="./assets/images/front/logo.jpeg" style={{borderRadius:"50% ", width:"70px", height:"70px"}} alt=""/>
                                 {/* <img src="img/logo.png" alt="Logo"> */}
                             </a>
-                            <p className="mb-4 text-light">Cette site fait l'intemédiaire entre notre application de prédiction et de dimensionnement.</p>
+                            <p className="mb-4 text-light">Ce site fait l'objet de transition pour l'outil de prédiction et l'évaluation de consommation énergétique.</p>
                         </div>
                     </div>
                     {/* <div className="col-md-6 col-lg-6 col-xl-2">
@@ -423,18 +424,7 @@ const StartPage = () => {
                             <a href="#"><i className="fas fa-angle-right me-2"></i> Contact us</a>
                         </div>
                     </div> */}
-                    {/* <div className="col-md-6 col-lg-6 col-xl-3">
-                        <div className="footer-item">
-                            <h4 className="text-white mb-4">Support</h4>
-                            <a href="#"><i className="fas fa-angle-right me-2"></i> Privacy Policy</a>
-                            <a href="#"><i className="fas fa-angle-right me-2"></i> Terms & Conditions</a>
-                            <a href="#"><i className="fas fa-angle-right me-2"></i> Disclaimer</a>
-                            <a href="#"><i className="fas fa-angle-right me-2"></i> Support</a>
-                            <a href="#"><i className="fas fa-angle-right me-2"></i> FAQ</a>
-                            <a href="#"><i className="fas fa-angle-right me-2"></i> Help</a>
-                        </div>
-                    </div> */}
-                    <div className="col-md-6 col-lg-6 col-xl-3">
+                    <div className="col-md-4 col-lg-6 col-xl-4">
                         <div className="footer-item">
                             <h4 className="text-white mb-4">Contact Info</h4>
                             <div className="d-flex align-items-start">
@@ -460,6 +450,17 @@ const StartPage = () => {
                                 <a className="btn btn-primary btn-sm-square rounded-circle me-0" href="#"><i className="fab fa-linkedin-in text-white"></i></a>
                             </div> */}
                         </div>
+                    </div>
+                    <div className="col-md-4 col-lg-6 col-xl-4">
+                            <h4 className="text-white mb-4 text-center">Partenaires</h4>
+                            <div className="row">
+                                <div className="col-md-6">
+                                <img src="./assets/images/front/logo_wattec.jpeg" style={{ width:"150px", height:"100px"}} alt=""/>
+                                </div>
+                                <div className="col-md-6 bg-white p-0 text-center" style={{boxSizing:'content-box'}}>
+                                <img src="./assets/images/front/logo_ist.png" style={{ width:"150px", height:"100px"}} alt=""/>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

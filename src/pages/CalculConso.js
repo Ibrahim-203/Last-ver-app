@@ -309,11 +309,11 @@ const changeinfoOnd = (value, name)=>{
   const steps = [
     {
       target: '.eqpmt-space',
-      content: 'Entrer ici les informations de votre equipements',
+      content: 'Entrer ici les informations de vos equipements',
     },
     {
       target: '.usage',
-      content: 'Ouvrez cette panel pour entrer les détails de l\'utilisation de votre équipement.',
+      content: 'Ouvrez ce panel pour entrer les détails de l\'utilisation de votre équipement.',
     },
     {
       target: '.add-eqpmt',
@@ -355,7 +355,7 @@ const changeinfoOnd = (value, name)=>{
             <div className=" col-md-4 mt-2">
               <div className="form-group">
                 <label htmlFor="orientation">Choix du tarif</label>
-                <SelectPicker size="sm" searchable={false} className="d-block" data={dataChoixTarif} value={choixTarif} onChange={(value)=>{setChoixTarif(value); changeInfoEco(value,"tarif")}} placeholder="Choisir une Tarif"/>
+                <SelectPicker size="sm" searchable={false} className="d-block" data={dataChoixTarif} value={choixTarif} onChange={(value)=>{setChoixTarif(value); changeInfoEco(value,"tarif")}} placeholder="Choisir un tarif"/>
               </div>
             </div>
           </div>
@@ -385,7 +385,7 @@ const changeinfoOnd = (value, name)=>{
                           <div>
                             <Input
                               size="sm"
-                              placeholder="equipement"
+                              placeholder="Equipement"
                               value={item.equipement}
                               onChange={(value, event) => changeEquipDesc(index, event)}
                               name="equipement"
