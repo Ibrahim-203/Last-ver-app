@@ -47,7 +47,7 @@ export const AppProvider = ({ children }) => {
         VOC:0,
         ISC:0,
         totalPanel:0
-      })
+      }) 
       const [activeKey, setActiveKey] = useState(1);
       const [onduleur, setOnduleur] = useState(0);
       const [checked, setChecked] = useState(false);
@@ -67,6 +67,7 @@ export const AppProvider = ({ children }) => {
   ]);
   const [choixInstallation, setChoixInstallation] = useState(null)
   const [choixTarif, setChoixTarif] = useState(null)
+  const dataChoixInstallation = [{label:'Résidencielle', value:0.97},{label:'Commerciale', value:0.9},{label:'Industrielle', value:0.8}]
 
 
   const [equipementsUsage, setEquipementsUsage] = useState([
@@ -267,7 +268,8 @@ const [factureData, setFactureData] = useState([
             offline,
             setOffline,
             helpBox,
-            setHelpBox
+            setHelpBox,
+            dataChoixInstallation
         }}>
           {children}
         </AppContext.Provider>

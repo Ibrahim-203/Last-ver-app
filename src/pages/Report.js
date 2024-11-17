@@ -170,14 +170,15 @@ const Report = () => {
     setCourbeChargeData,
     infoSecu,
     ensBatt,
-    setEnsBatt,
     nomProjet,
     infoEnv,
     infoEconomie,
     courbePuissData,
     labelCourbePuiss,
     helpBox,
-    localisation
+    localisation,
+    choixInstallation,
+    dataChoixInstallation
   } = useAppContext()
 
 
@@ -185,6 +186,10 @@ const Report = () => {
     console.log(infoEconomie);
 
   })
+
+  const installationChoisi = dataChoixInstallation.find((item) => item.value === choixInstallation)?.label;
+
+
   const updateChartConso = (month) => {
     if (month === null) return;
     let startDay = getFirstDayOfMonth(year, month) === 0 ? 6 : getFirstDayOfMonth(year, month) - 1
@@ -256,7 +261,6 @@ const Report = () => {
     const modal_backdrop = document.querySelector('.modal-backdrop')
     if (infoClient[0].nom && infoClient[0].prenom && infoClient[0].ville && infoClient[0].mail && infoClient[0].interet && infoClient[0].commentaire && infoClient[0].satisfaction && infoClient[0].recommandation) {
       postInfoClient(data)
-      alert("hello")
     } else {
       alert("Toutes les informations sont obligatoires")
     }
@@ -457,6 +461,7 @@ const Report = () => {
                   <h4 className='text-center'>Projet : {nomProjet}</h4>
                   {!checked && 
                   <>
+                  <p className='text-black mt-3'><span className='text-warning' style={{fontWeight:"bold", fontSize:"16px"}}>Installation</span> : {installationChoisi}</p>
                   <div className="info-localisation text-center mt-3">
                     <p className=' text-warning' style={{fontWeight:"bold", fontSize:"16px"}}>Localisation</p>
                   <div className='text-black bg-light p-3'>

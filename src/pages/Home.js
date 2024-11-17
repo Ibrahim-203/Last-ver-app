@@ -206,7 +206,6 @@ useEffect(()=>{
     console.log(ensBatt);
   },[dataEns])
 
-  const [manualIrrad, setManualIrrad] = useState(Array(12).fill(0))
 
   const validateInstallationStep= ()=>{
 
@@ -269,12 +268,14 @@ useEffect(()=>{
               })
              totalPanel += rendement*surface*(panelP+panelS)
              console.log("installation", index, " : ",rendement,surface,panelP,panelS);
-            
+              console.log(totalPanel);
+              
              puissanceUnitaire.forEach((item, id)=>{
               puissanceInstallation[id] += item
              })  
              VOC.push(item.tensionVOC*item.panelS)
              ISC.push(item.courantISC*item.panelP)
+
              puissanceTotal.push(puissanceUnitaire)    
             }
 

@@ -75,12 +75,13 @@ const CalculConso = () => {
       setChoixTarif, 
       ensBatt,
       helpBox,
+      dataChoixInstallation
       // Ajoute d'autres valeurs ou fonctions ici si nécessaire
     } = useAppContext();
   
        // Variable pour la consommation: Disponible version suivante
 
-      const dataChoixInstallation = [{label:'Résidencielle', value:0.97},{label:'Commerciale', value:0.9},{label:'Industrielle', value:0.8}]
+      
       const dataChoixTarif = [{label:'Super confort', value:0.863},{label:'Confort', value:0.795},{label:'Economique - social', value:0.370}]
       // Variable pour la consommation
       const [choixEstConso, setChoixEstConso] = useState("A");
