@@ -396,12 +396,12 @@ const Report = () => {
     },
     {
       target: '.month-result',
-      content: 'Cliquer ici pour afficher un champ avec la liste des mois et choississez le mois que vous voulez affichez.',
+      content: 'Cliquer ici pour afficher un champ avec la liste des mois et choississer le mois que vous voulez afficher.',
       placement: 'right'
     },
     {
       target: '.print',
-      content: 'Cliquer sur ce boutton pour imprimer les résultats, mais avant laisser nous un petit commentaire.',
+      content: 'Cliquer sur ce boutton pour imprimer les résultats, mais avant laisser nous un commentaire.',
       placement: 'top'
     },
   ];

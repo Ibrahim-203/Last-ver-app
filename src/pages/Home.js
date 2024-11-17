@@ -45,7 +45,7 @@ L.Icon.Default.mergeOptions({
 const steps = [
   {
     target: '.status-enligne',
-    content: 'Cette message vous indique votre status de connexion',
+    content: 'Ce message vous indique votre status de connexion',
   },
   {
     target: '.nom-projet',

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const SideBar = () => {
     const navContent = [
         {title : "Installation Solaire", link: "/installation", icon: "mdi:solar-panel"},
-        {title : "Calcule consommation", link: "/calc-conso", icon: "game-icons:desk-lamp"},
+        {title : "Etude de consommation", link: "/calc-conso", icon: "game-icons:desk-lamp"},
         {title : "Dimensionnement onduleur", link: "/dim-ond", icon: "cbi:huawei-solar-inverter"},
         {title : "Dimensionnement batterie", link: "/dim-batt", icon: "fa6-solid:car-battery"},
         {title : "Sécurité du matériel", link: "/sec-mat", icon: "ic:outline-cable"},

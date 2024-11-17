@@ -211,7 +211,7 @@ const StartPage = () => {
             <div className="container pb-5">
                 <div className="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style={{maxWidth: "800px;"}}>
                     <h4 className="text-primary-front">Notre Services</h4>
-                    <h1 className="display-5 mb-4">Profiter des meilleurs services</h1>
+                    <h1 className="display-5 mb-4">Profiter de nos meilleurs services</h1>
                     <p className="mb-0">Nos services vous offrent une vision complète de votre consommation énergétique. De l'évaluation de vos besoins actuels à la prédiction de votre consommation future, nos outils sont conçus pour vous aider à optimiser et gérer efficacement vos ressources énergétiques. Que ce soit pour suivre vos habitudes de consommation ou planifier pour demain, nous vous accompagnons dans chaque étape pour une énergie plus durable et maîtrisée.
                     </p>
                 </div>
@@ -339,8 +339,8 @@ const StartPage = () => {
             <div className="container pb-5">
                 <div className="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style={{maxWidth: "800px;"}}>
                     <h4 className="text-primary-front">Avis</h4>
-                    <h1 className="display-5 mb-4">Notre client</h1>
-                    <p className="mb-0">Lisez ici les avis que nos visiteurs nous ont laissé durant leurs utilisation de notre application.
+                    <h1 className="display-5 mb-4">Nos clients</h1>
+                    <p className="mb-0">Lisez ici les avis laissés par nos visiteurs durant l'utilisation de l'application.
                     </p>
                 </div>
                 <div className="row">
@@ -410,7 +410,7 @@ const StartPage = () => {
                                     <img src="./assets/images/front/logo.jpeg" style={{borderRadius:"50% ", width:"70px", height:"70px"}} alt=""/>
                                 {/* <img src="img/logo.png" alt="Logo"> */}
                             </a>
-                            <p className="mb-4 text-light">Cette site fait l'intemédiaire entre notre application de prédiction et de dimensionnement.</p>
+                            <p className="mb-4 text-light">Ce site fait l'objet de transition pour l'outil de prédiction et l'évaluation de consommation énergétique.</p>
                         </div>
                     </div>
                     {/* <div className="col-md-6 col-lg-6 col-xl-2">
