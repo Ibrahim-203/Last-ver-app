@@ -1,16 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect,  useState } from 'react';
 import SideBar from '../component/SideBar';
 import Header from '../component/Header';
 import {
-    Tabs,
-    Placeholder,
     Input,
     InputNumber,
     SelectPicker,
-    Loader,
     Radio,
     RadioGroup,
-    Toggle,
     Panel, 
     HStack,
     Button,
@@ -47,20 +43,16 @@ const CalculConso = () => {
     const day = ['lun','mar','mer','jeu','ven','sam','dim']
 
     const {
-      nomProjet,
       infoOnduleur,
       setInfoOnduleur,
       infoEconomie,
       setInfoEconomie,
       factureData, 
-      setFactureData,
       equipementsDescription,
       setEquipementsDescription,
       equipementsUsage,
       setEquipementsUsage,
       productionInstallation,
-      setProductionInstallation,
-      dataAutoconso,
       setDataAutoconso,
       installationInfo,
       setCourbePuissData,
@@ -129,7 +121,6 @@ const validateConso = ()=>{
     }       
 })
 if(!emptyfield){
-let totalPowerPerHour = Array(24).fill(0)
   let labelPuiss =[]
   // let labelHour
   let dataPuiss = []
@@ -283,7 +274,7 @@ const changeinfoOnd = (value, name)=>{
     const newEquipement = [...equipementsUsage];
     newEquipement[index][type][use] = !newEquipement[index][type][use]
     setEquipementsUsage(newEquipement)
-  },[equipementsUsage])
+  },[equipementsUsage, setEquipementsUsage])
 
   const changeEquipDesc = useCallback((index, event) => {
     console.log("usage Equipement");
@@ -301,7 +292,7 @@ const changeinfoOnd = (value, name)=>{
       newEquipement[index] = updatedEquipement;
       return newEquipement;
     });
-  },[]);
+  },[setEquipementsDescription]);
 
 // Fonctions
 
