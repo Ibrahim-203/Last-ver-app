@@ -1,3 +1,4 @@
+import { Icon } from '@iconify-icon/react';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -17,7 +18,9 @@ const SideBar = () => {
         {/* Sidebar scroll*/}
         <div>
           <div className= "brand-logo d-flex align-items-center justify-content-between">
-            <h3 className='text-light'>Etapes</h3>
+            <h3 className='text-light d-flex align-items-center '>
+            Etapes 
+            </h3>
             <div className= "close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
               <i className= "ti ti-x fs-8"></i>
             </div>

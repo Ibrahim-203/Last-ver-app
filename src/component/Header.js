@@ -1,6 +1,8 @@
 import React from 'react';
 import { Checkbox } from 'rsuite';
 import { useAppContext } from '../context/AppContext';
+import { NavLink } from 'react-router-dom';
+import { Icon } from '@iconify-icon/react';
 
 const Header = ({step, isHelp}) => {
   const{ setHelpBox} = useAppContext()
@@ -15,11 +17,7 @@ const Header = ({step, isHelp}) => {
               </a>
             </li>
             <li className= "nav-item">
-              <a className= "nav-link nav-icon-hover" href="javascript:void(0)">
-                <i className= "ti ti-bell-ringing"></i>
-                <div className= "notification bg-primary rounded-circle"></div>
-              </a>
-              
+            <NavLink to='/' className='d-flex align-items-end'><Icon className=' text-primary' style={{fontSize:'1.7rem'}} icon="oi:home"/></NavLink>
             </li>
           </ul>
           <div className= "navbar-collapse justify-content-end pe-3" id="navbarNav">

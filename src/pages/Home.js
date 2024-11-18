@@ -223,7 +223,7 @@ useEffect(()=>{
               parseInt(onduleur) === 0
             ) {
               empty = true;
-              message = "La puissance de l'onduleur ne peux pas être 0"
+              message = "La puissance de l'onduleur ne peut pas être 0."
               
             }else{
               const newInfo = [...infoOnduleur]
@@ -256,7 +256,7 @@ useEffect(()=>{
               item.tensionVOC ==="" 
             ) {
               empty = true;
-              message = "Veillez vous assurer que tous les champs de l'installation sont bien remplis";
+              message = "Veuillez vous assurer que tous les champs relatifs à l'installation sont bien remplis.";
             }else{
               const rendement = parseFloat(item.rendement/100)
               const surface = parseFloat(item.surface)
@@ -314,7 +314,7 @@ useEffect(()=>{
           console.log(installationTotal);
         }
         if (emptyLoc) {
-          customAlert("Données manquant", "Veillez choisir une emplacement")
+          customAlert("Données manquant", "Veuillez choisir un emplacement")
           return 
         }
   
@@ -387,7 +387,7 @@ useEffect(()=>{
             // Kwh/m2
           } catch (error) {
             console.error("Erreur lors de l'appel API", error);
-            alert("Erreur lors de la communication au server, veillez verifiez votre connection internet ou entrer manuelement l'irradiation.")
+            alert("Erreur lors de la communication avec le serveur. Veuillez vérifier votre connexion internet ou couper votre wifi pour profiter de la fonctionnalitées hors ligne.")
           }finally{
             setLoading(false)
           }

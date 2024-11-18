@@ -304,10 +304,6 @@ const changeinfoOnd = (value, name)=>{
       content: 'Entrer ici les informations de vos equipements',
     },
     {
-      target: '.usage',
-      content: 'Ouvrez ce panel pour entrer les détails de l\'utilisation de votre équipement.',
-    },
-    {
       target: '.add-eqpmt',
       content: 'Cliquer ici pour ajouter plus d\'équipement.',
     },

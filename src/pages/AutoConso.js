@@ -9,9 +9,7 @@ const AutoConso = () => {
 
   const navigate = useNavigate()
   const {dataAutoconso, 
-        setDataAutoconso,
       productionUnitPanel,
-    setProductionUnitPanel,
     courbeChargeData
   } = useAppContext()
 

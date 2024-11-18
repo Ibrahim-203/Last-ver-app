@@ -86,7 +86,7 @@ app.get('/proxy/hourtest',async (req,res)=>{
     try {
         const response = await axios.get('https://re.jrc.ec.europa.eu/api/v5_2/seriescalc', {
           params: {
-            lat: latitude,
+            lat: latitude, 
             lon: longitude,
             startyear : 2020 ,
             endyear: 2020,

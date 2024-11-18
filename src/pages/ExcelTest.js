@@ -3,6 +3,7 @@ import * as XLSX from 'xlsx';
 import { Table, Pagination, InputNumber, SelectPicker, Checkbox, Input, useToaster, Message } from 'rsuite';
 import { NavLink } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
+import Swal from 'sweetalert2'
 import "./style/predictStyle.css"
 import axios from 'axios';
 import MyModal from '../component/MyModal';
@@ -51,6 +52,24 @@ const ExcelTest = () => {
       service: "Prédiction"
     }
   ])
+
+
+  const customAlert = (title, content)=>{
+    return Swal.fire({
+      title: title,
+      text: content,
+      confirmButtonText: 'Ok',
+      backdrop: 'swal2-backdrop-hide',
+      buttonsStyling : false,
+      height:"60px",
+      confirmButtonColor:"orange",
+      customClass: {
+        title: 'modal_title',
+        htmlContainer:'modal_text',
+        confirmButton :"modal_confirm_button"
+      }
+    })
+  }
 
   const postInfoClient = async (data) => {
 
@@ -172,6 +191,12 @@ const ExcelTest = () => {
 
 
   const handlePredict = async () => {
+    
+    if (Object.entries(data[0]).length !==16) {
+      console.log(Object.entries(data[0]).length);
+      customAlert("Données inexactes", "Il semble que vous avez entré un modèle de données incorrect la données exacte dois avoir la dimension (24x16). Veuillez télécharger un modèle pour vous guider. Merci.")
+      return
+    }
     try {
       const response = await axios.post('http://localhost:5000/predict', {
         data: { data }
