@@ -264,9 +264,9 @@ useEffect(()=>{
               const panelS = parseFloat(item.panelS)
               installationTotal+=parseInt(item.puissInstallation)
               dataEns.forEach((it, id)=>{
-                puissanceUnitaire[id] = it*(rendement)*surface*(panelP+panelS)
+                puissanceUnitaire[id] = it*(rendement)*surface
               })
-             totalPanel += rendement*surface*(panelP+panelS)
+             totalPanel += rendement*surface*(panelP*panelS)
              console.log("installation", index, " : ",rendement,surface,panelP,panelS);
               console.log(totalPanel);
               
