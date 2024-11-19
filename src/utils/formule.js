@@ -8,6 +8,15 @@ export function formConsoOnduleur(puissOnduleur){
 
 // formule onduleur
 
+// Formule panneau
+
+export function fomrProductionInstallation  (irradiation, rendement, surface, panelP, panelS){
+    return irradiation*rendement*surface*(panelP*panelS)
+}
+
+
+// Formule panneau
+
 // formule batterie
 
 // formule batterie

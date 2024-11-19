@@ -210,7 +210,7 @@ const StartPage = () => {
         <div className="container-fluid service pb-5" id="service">
             <div className="container pb-5">
                 <div className="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style={{maxWidth: "800px;"}}>
-                    <h4 className="text-primary-front">Notre Services</h4>
+                    <h4 className="text-primary-front">Nos Services</h4>
                     <h1 className="display-5 mb-4">Profiter de nos meilleurs services</h1>
                     <p className="mb-0">Nos services vous offrent une vision complète de votre consommation énergétique. De l'évaluation de vos besoins actuels à la prédiction de votre consommation future, nos outils sont conçus pour vous aider à optimiser et gérer efficacement vos ressources énergétiques. Que ce soit pour suivre vos habitudes de consommation ou planifier pour demain, nous vous accompagnons dans chaque étape pour une énergie plus durable et maîtrisée.
                     </p>
@@ -356,7 +356,7 @@ const StartPage = () => {
                                 <h5 className='text-center'>{item.nom} {item.prenom}</h5>
                                 <p className='text-center'>{item.commentaire}</p>
                                 <div className="d-flex mt-3 align-items-center justify-content-between">
-                                    <p>Avis: {item.satisfaction}/5</p>
+                                    <p>Avis: {parseInt(item.satisfaction)+1}/5</p>
                                    <p className='m-0'>recommandation : {item.recommandation}/10</p>
                                 </div>
                             </div>

@@ -88,7 +88,6 @@ const ExcelTest = () => {
     const modal_backdrop = document.querySelector('.modal-backdrop')
     if (infoClient[0].nom && infoClient[0].prenom && infoClient[0].ville && infoClient[0].mail && infoClient[0].interet && infoClient[0].commentaire && infoClient[0].satisfaction && infoClient[0].recommandation) {
       postInfoClient(data)
-      alert("hello")
     } else {
       alert("Toutes les informations sont obligatoires")
     }

@@ -24,7 +24,7 @@ import {
   Toggle,
 } from "rsuite";
 import { useAppContext } from '../context/AppContext';
-import { formConsoOnduleur } from '../utils/formule'
+import { fomrProductionInstallation, formConsoOnduleur } from '../utils/formule'
 import Swal from 'sweetalert2'
 import NavButton from '../component/NavButton';
 import axios from 'axios';
@@ -243,7 +243,7 @@ useEffect(()=>{
             
             let puissanceInstallation = Array(12).fill(0)
             installation.forEach((item,index) => {
-            let puissanceUnitaire = Array(12).fill(0)
+            let productionInstallation = Array(12).fill(0)
             if (
               item.orientation === "" ||
               item.puissInstallation === "" ||
@@ -264,19 +264,21 @@ useEffect(()=>{
               const panelS = parseFloat(item.panelS)
               installationTotal+=parseInt(item.puissInstallation)
               dataEns.forEach((it, id)=>{
-                puissanceUnitaire[id] = it*(rendement)*surface
+                // Production d'une installation
+                productionInstallation[id] = fomrProductionInstallation(it,rendement,surface,panelP,panelS)
               })
+              // Puissance total de toutes les panneaux dans une installation
              totalPanel += rendement*surface*(panelP*panelS)
              console.log("installation", index, " : ",rendement,surface,panelP,panelS);
               console.log(totalPanel);
               
-             puissanceUnitaire.forEach((item, id)=>{
+             productionInstallation.forEach((item, id)=>{
               puissanceInstallation[id] += item
              })  
              VOC.push(item.tensionVOC*item.panelS)
              ISC.push(item.courantISC*item.panelP)
-
-             puissanceTotal.push(puissanceUnitaire)    
+            //  Stocker la production de l'installation courante dans un tableau
+             puissanceTotal.push(productionInstallation)
             }
 
           });
