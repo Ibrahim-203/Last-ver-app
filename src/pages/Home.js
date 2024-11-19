@@ -373,8 +373,6 @@ useEffect(()=>{
     };
     // valeur défaut
     // Variable pour le panneau solaire
-
-
       // Func-Equipement
 
       const getInfoIrrad = async (localisation) => {
@@ -794,7 +792,7 @@ useEffect(()=>{
                               onChange={setOnduleur}
                               value={onduleur}
                               name="onduleur"
-                              placeholder="W"
+                              placeholder="Kw"
                             />
                           </div>
                         </div>

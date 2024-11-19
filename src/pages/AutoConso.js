@@ -16,8 +16,8 @@ const AutoConso = () => {
   const mois = ['jan','fev','mars','avr','mai','jiun','juil','août','sept','oct','nov','dec']
   const dataDog = {
     labels: [
-      'Autoconsommée',
-      'Autoproduite'
+      `Autoconsommée ${dataAutoconso[0].toFixed(2)}%`,
+      `Autoproduite  ${dataAutoconso[1].toFixed(2)}%`
     ],
     datasets: [{
       label: "Profil d'autoconsommation",

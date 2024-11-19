@@ -178,7 +178,8 @@ const Report = () => {
     helpBox,
     localisation,
     choixInstallation,
-    dataChoixInstallation
+    dataChoixInstallation,
+    isBatt,
   } = useAppContext()
 
 
@@ -296,7 +297,7 @@ const Report = () => {
       ],
     }
   };
-  const dataEnsoleillementBatt = {
+  const dataEnsoleillementBattPanel = {
     labels: ensBatt.label,
     datasets: [
       {
@@ -308,6 +309,36 @@ const Report = () => {
         borderWidth: 1,
         tension: 0.2,
       },
+      {
+        label: "Consommation",
+        data: ensBatt.dataConso, // Données de production solaire mensuelles
+        backgroundColor: "rgba(192, 70, 192, 0.6)",
+        borderColor: "rgba(192, 70, 192, 1)",
+        borderWidth: 1,
+        tension: 0.4,
+      },
+      {
+        label: "Capacité",
+        data: ensBatt.dataBattery, // Données de production solaire mensuelles
+        backgroundColor: "rgba(40, 190, 0, 0.6)",
+        borderColor: "rgba(40, 190, 0, 1)",
+        borderWidth: 1,
+        tension: 0.2,
+      },
+      {
+        label: "Soutiré",
+        data: ensBatt.soutire, // Données de production solaire mensuelles
+        backgroundColor: "rgba(200, 50, 0, 0.6)",
+        borderColor: "rgba(200, 50, 0, 1)",
+        borderWidth: 1,
+        tension: 0.4,
+      },
+    ],
+  };
+
+  const dataEnsoleillementBattOnd = {
+    labels: ensBatt.label,
+    datasets: [
       {
         label: "Consommation",
         data: ensBatt.dataConso, // Données de production solaire mensuelles
@@ -533,15 +564,15 @@ const Report = () => {
                 </div>
               </div>
               <div className='html2pdf__page-break'></div>
-              <div className=''>
+              {isBatt && <div className=''>
                 <p style={{ fontSize: "22px", fontWeight: "bold", color: "orange", marginTop: "4px" }}>Partie Batterie</p>
                 <div className="row ">
                   <div className="col-md-6">
-                    <Line data={dataEnsoleillementBatt} options={lineOption} />
+                    <Line data={checked?dataEnsoleillementBattOnd:dataEnsoleillementBattPanel} options={lineOption} />
                   </div>
 
                 </div>
-              </div>
+              </div>}
               <p style={{ fontSize: "22px", fontWeight: "bold", color: "orange", marginTop: "4px" }}>Partie Sécurité du matériel</p>
               <div className="row ">
                 <table class="table">

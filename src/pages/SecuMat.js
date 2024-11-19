@@ -13,9 +13,10 @@ const SecuMat = () => {
   
       const navigate = useNavigate()
       // Variable pour sécurité
-      const {infoSecu, setInfoSecu,infoBatt, infoOnduleur, installationInfo, ensBatt,helpBox} = useAppContext()
+      const {infoSecu, setInfoSecu,infoBatt, infoOnduleur,onduleur, installationInfo, ensBatt,helpBox, isBatt} = useAppContext()
       useEffect(()=>{
         console.log(ensBatt);
+        console.log(isBatt);
         
       })
       const customAlert = (title, content)=>{
@@ -79,7 +80,7 @@ const SecuMat = () => {
       }
       const handleclick = ()=>{
         if (!validateSecu()) return
-        navigate('/autocons')
+        onduleur ?navigate('/etude-eco'):navigate('/autocons')
       }
       // Function sécurité
       const changeinfoSecu = (value, name)=>{

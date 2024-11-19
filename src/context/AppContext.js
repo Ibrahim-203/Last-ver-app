@@ -23,6 +23,7 @@ export const AppProvider = ({ children }) => {
           panelP:""
         },
       ]);
+      const [isBatt, setIsBatt] = useState(true)
             // Variable batterie
             const [infoBatt, setInfoBatt] = useState([
                 {
@@ -269,7 +270,9 @@ const [factureData, setFactureData] = useState([
             setOffline,
             helpBox,
             setHelpBox,
-            dataChoixInstallation
+            dataChoixInstallation,
+            isBatt, 
+            setIsBatt
         }}>
           {children}
         </AppContext.Provider>

@@ -15,11 +15,16 @@ const DimBatt = () => {
             setInfoBatt,
             setEnsBatt,
             infoEconomie,
-            helpBox
+            helpBox,
+            checked,
+            setIsBatt
             } = useAppContext()
     // Variable 
     useEffect(()=>console.log(infoEconomie[0].donnees.tarif))
-
+    const funcNoBatt=()=>{
+      setIsBatt(false)
+      navigate('/sec-mat')
+    }
     const customAlert = (title, content)=>{
       return Swal.fire({
         title: title,
@@ -45,6 +50,7 @@ const DimBatt = () => {
 
   const handleclick = ()=>{
     if(!validateBattStep()) return
+    setIsBatt(true)
     navigate('/sec-mat')
   }
   const validateBattStep = ()=>{
@@ -72,9 +78,10 @@ const DimBatt = () => {
         let updateCapacity = capacite
         let energieConso = 0
         let resteEnergie = 0
-        newInfo.dataConso.forEach((conso,id)=>{
-          energieConso += 1
-          resteEnergie += 1
+        // Si on a la puissance du panneau
+        if(!checked){
+          newInfo.dataConso.forEach((conso,id)=>{
+            
           // Verifier si il y a une consommation
           if (conso>0) {
             // consommation inférieur à la production
@@ -116,7 +123,54 @@ const DimBatt = () => {
            
           }
         newInfo.dataBattery[id] = updateCapacity
-      })
+        })
+        // si on a pas la puissance du panneau
+        }else{
+          let full = true
+          console.log('onduleur');
+          
+          
+          newInfo.dataConso.forEach((conso,id)=>{
+            if(full){
+              if(conso<updateCapacity){
+                console.log("onduleur");
+                if (updateCapacity - conso > puissanceDecharge) {
+                  updateCapacity = updateCapacity - conso
+                  resteEnergie += updateCapacity
+                  energieConso += conso
+                } else {
+                  soutire[id] = conso - (updateCapacity - puissanceDecharge)
+                  updateCapacity = puissanceDecharge
+                  energieConso += conso
+                  full = false
+                }
+            }else{
+              console.log('conso : ', conso,"batterie : ", updateCapacity);
+              
+              soutire[id] = conso - (updateCapacity - puissanceDecharge)
+              updateCapacity = puissanceDecharge
+              energieConso += conso
+              full = false
+            }
+            }else{
+              if (capacite>updateCapacity) {
+                if(updateCapacity+charge <= capacite){
+                  updateCapacity = updateCapacity+charge
+                  soutire[id] = conso
+                  energieConso +=conso
+                }else{
+                  updateCapacity = capacite
+                  full = true
+                }
+                
+              }
+            }
+        newInfo.dataBattery[id] = updateCapacity
+          })
+        }
+        
+
+        // sinon
       newInfo.energieReste = resteEnergie
       newInfo.energieConsommee = energieConso
       newInfo.soutire = soutire
@@ -150,6 +204,7 @@ const DimBatt = () => {
           {/*  Header End */}
           <div className= "container-fluid">
             <div className='card p-2'>
+              <div className="d-flex justify-content-end"><button className='btn btn-danger' onClick={funcNoBatt}>Continuer sans batterie </button></div>
             <div className="row m-3">
             <div className=" col-md-4 mt-2">
               <p>Capacité utile de la batterie</p>
